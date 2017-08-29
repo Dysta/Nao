@@ -1,0 +1,136 @@
+Rubrum Solem est développé par -WalakaZ-
+Ajout de quelques feature par Starlight
+Ajout de quelques feature par Dysta
+
+Changelog :
+
+revision 0.1 (by WalakaZ-) : 
+	-Nombreuse correction au niveau des conventions de nommages - 3 heures de taff 
+	-Nouvelle console, plus jolie et simple à utiliser - 1 heure de taff 
+	-Chargement plus efficace, rapide et comprehenssible - 2 heures de taff 
+	-Nouveau serveur de socket pour le serveur de connection - 12 heures de taff 
+	-Generation de pseudo à la connection moins absurde - 3 heures de taff
+	-UI de création de pseudo à la connection s'il n'y en à pas déjà - 30 minutes de taff 
+	-Recherche d'amis par serveur avant la création du perso - 1 heure de taff 
+	-Sécurisation des connections(wpe pro, flood conenctions, bot, etc....) - 1 heure de taff 
+	-Enorme faille de création de chacha et de téleportation corrigée - 5 minutes de taff 
+	-Faille de géneration de kamas corrigée - 5 minutes de taff 
+	-Faille de géneration de dofus cawotte corrigée - 5 minutes de taff 
+	-Faille d'ouverture de banque n'importe ou corrigée - 5 minutes de taff 
+	-Faille de duplication de n'importe quel objet via supression corrigé - 30 minutes de taff 
+	-Faille de duplication de n'importe quel objet via poses au sol corrigé - 20 minutes de taff 
+	-Correction d'un petit bug sur la commande .stuff - 5 minutes de taff 
+	-Correction de 25 failles au niveau des échanges d'item(hdv compris) pouvant engendrer duplication (valeur négative) - 25 minutes de taff 
+	-Correction des soins des baguettes Rhon et diverses autres CaC - 1 heures 30 de taff 
+	-Refonte du system de création de personnagepour éviter certainnes failles et bug - 45 minutes de taff 
+	-Correction du bug punition qui donné de la vie avec Immunité - 20 minutes de taff 
+	-Correction du piège repulsif - 10 minutes de taff 
+	-Correction du bug double tour avec sac de l'énutrof - 10 minutes de taff 
+	-Correction du bug d'invisibilité d'autrui avec punition, le joueur s'affiche maintenant - 30 minutes de taff
+	-Correction des invocations static impossible de les déplacer à présent - 30minutes de taff 
+	-Correction des résistances 50 au lieu de 100 ( graphiquement) - 30 minutes de taff
+
+revision 0.2 : 
+	-Correction d'un bug d'affichage de la guilde et de la dragodinde - 35 minutes de taff 
+	-Correction des ailes du doubles, elle s'affiche maintenant correctement - 1 heure 30 de taff 
+	-Re-Correction des invocations static ( oublie :s ) - 2 heure 45 minutes de taff 
+	-Correction sur la connection 
+	-Reboot automatique avec nétoyage de la JVM à chaque fois que le system est kill 
+----> Cette révision n'est pas terminée!
+
+revision 0.3 (by Starlight) :
+	- Update log system
+	- Add subscription system, with all conditions
+	- Add candy's
+	- Fix end fight
+	- Config reorganised and more lite
+	- Add mob Respawn with timer (FIXME !)
+	- Add console dynamic title.
+	- Update console skin.
+	- Update libs for better performance.
+	- Correct guild creation (Before you can create a guild without the required item)
+	- Iteractive objects (with a special method for beginners dungeon).
+	- Add monsters displacements, like official.
+	- Adding new commands AN and MP for speak in red.
+	- Pets fix
+	- Add color in Dofus Admin Console.
+	- The emulator don't log older titles, it can crash the emulator
+	- Add a new Admin command HELP
+	- Fusion of NAMEANNOUNCE and AN commands
+	- You can choose the server ID in config
+
+revision 0.4 (by Dysta) :
+	-Revue du système de lecture de la config - 5h de taff
+	-Revue du système de log (plus possible de le désactiver/possibilité d'afficher ou non dans la console) - 3h de taff
+	-Revue du système de log (tout est dans le fichier Logs.java) - 1h de taff
+	-Suppression d'une faille mise dans la revision 0.3 - 5min de taff
+	-Refonte de la console (plus de spam de la console avec les chiffres -> chargement plus rapide) - 30min de taff
+	-Ajout d'un log SQL - 30min de taff
+	-Ajout du refresh du statut du serveur - 20min de taff (merci Manghao)
+	-Revue des formule WinXP, WinHonor (merci Ydainna)
+	-Revue des applications des lives actions (temps modifiable dans la config)
+	-Revue du timer pour le reboot auto (temps configurable dans la config)
+	-Mise en place de l'actionID 308 (PNJ dialogue Echange)
+	-Correction d'un bug qui empêchait la création d'un perso après le delete d'un autre
+	-Revue du reboot auto (correction du timer) + envoi du packet de mise en maintenance
+	-Revue des commandes dans le CMD (code plus clair)
+	-Ajout commande via SQL (comme iCore)
+	-Ajout d'un antiFlood de packet (https://dozenofelites.com/topic/7087-javatutoriel-ar-et-d%C3%A9riv%C3%A9s-prot%C3%A9gez-votre-serveur/)
+	-Revue des messages des perco (attaque/survie/meurt)
+	-Correction de la suppresion d'un perco (le joueur se faisait déco)
+	-Ajout des carac 2.0 activable ou non dans la config
+	-Ajout d'une blacklist de pseudo dans la configuration
+	-Revue de la création des personnages (plus de spam vérif, vérification pseudo plus simple (merci Dana), ajout d'un anti WPEpro)
+	-Revue de l'AntiFlood (debug de l'antiflood, utilisation des packets Im officiel, AntiFlood beaucoup plus stricte)
+	-Ajout de la mise en paramètre du temps entre deux messages dans les canaux de commerde/recrutement/incarnam
+	-Ajout d'un message lorsqu'on MP quelqu'un de muté
+	-Ajout de l'inactivité (lorsqu'un joueur est inactif il est automatiquement kick)(temps configurable)
+	-Ajout d'une protection anti-bug lors des bans (lorsqu'un admin ban un joueurs en combat, celui-ci est expulsé uniquement lorsque le combat est terminé)
+	
+revision 0.5 (by Dysta) :
+	-Suppression de la téléportation via la minmap pour les VIP
+	-Correction du message d'information sur la position entre 2 amis
+	-Ajout du popup pour passer en mode marchand
+	-Correction du nombre nécessaire de joueurs pour que la guilde apparaisse lorsqu'on survole un joueur (nombre configurable)
+	-Correction des commandes announce et nameannounce
+	-Ajout des messages lorsqu'on utilise un parchemin (Vous avez gagné X points d'intelligence/force/vie/etc..)
+	-Correction de la carte, on voit maintenant les zones neutre/bonta/brak.
+	-Ajout d'un packet pour les popups et modification des commandes qui envoyait un popup.
+	-Correction de la commande setadmin, désormais elle envoie le packet correct (plus besoin de déco/reco pour avoir la console)
+	-Correction des statuts à Astrub. Lorsqu'on clique dessus on est TP à Incarnam et plus à la mapID/cellID custom.
+	-Ajout poubelle (Java et bdd)
+	-Ajout des maisons (bdd)
+	-Modification du système de pub (il envoi maintenant un message privé (on a le petit bruit et on peu ignorer la pub))
+	-Modification de l'applications des lives actions (elles s'appliquent uniquement lorsqu'il y a des joueurs en ligne)
+	-Modification du système de commande (plus de retrait de point avant utilisation de la commande)
+	-Ajout commande pour changer de classe
+	-Ajout commande pour mettre un tag à son perso
+	-Ajout commande pour supprimer le tag de son perso
+	-Ajout d'un nombre max de connection avec la même IP (On peut limiter le multi compte a X comptes)
+	-Refonte de la commande pour mettre un tag (il faut désormais mettre uniquement des lettres)
+	-Ajout de tout les armes a deux mains dans le item_template et refonte du chargement des armes à deux mains
+	-Correction du prisme, lorsqu'on le pose il ne prend plus la place d'un autre joueur
+	-Correction du prisme, l'affichage des combats en spectateur est désormais correct
+	-Correction de la capture d'âme qui provoquait une déconnexion et plantait complètement le/les personnages présent dans le combat
+	-Ajout commande .escouade. Amélioration du .maitre
+	-Ajout d'un anti VPN (les joueurs qui tente de ce connecter avec un VPN seront kick du serveur de jeux)
+	-Ajout de la dd Squellette (avec jet fictif)
+	-Refonte du SocketManager, il affiche maintenant à qui on envoie les packets.
+	-Correction d'un bug qui empêchait le combat de ce finir lorsqu'un joueur utilisait le sort Vent Empoisonné/Tremblement
+	-Modification des fights, désormais, lorsqu'un joueur ce déconnecte en combat les tours sont automatiquement passés
+
+revision 0.6 (by Dysta):
+	-Refonte des commandes staff (tout est géré dans la bdd maintenant (nom/gmlvl/args))
+	-Correction des invocations de monstres
+	-Correction d'une faille Zaapi qui permettait de ce TP n'importe ou
+	-Correction de l'utilsation des Zaapis qui faisaient déco quand on les utilisaient
+	-Correction de l'xp donné lors d'une traque (formule officiel)
+	
+	TODO :: FIX LA POSSIBILITE DE SE METTRE EN MODE MARCHAND SUR LES MAPS ZAAP
+			FIX L'APARENCE LORSQU'ON SE RECO ALORS QU'ON ETAIT EN MODE MARCHAND
+			FIX LES ZONES BONTA ET BRAK (ELLES DOIVENT ETRE BONTA OU BRAK ET NE PAS ETRE CAPTURABLE)
+			FIX ZONE ASTRUB (ELLE DOIT ETRE NEUTRE ET NE PAS ETRE CAPTURABLE)
+			FIX LE SYSTEME DE DALLE ET PORTE INTERACTIVE
+			FIX LA POSSIBILITE DE PASSER A TRAVERS LES PORTES D'ENCLOS
+			
+			
