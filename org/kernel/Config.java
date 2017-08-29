@@ -44,8 +44,7 @@ public class Config {
 	public static long FLOOD_TIME = 30000;
 	public static String GAMESERVER_IP;
 	public static int CONFIG_TRAQUE_DIFFERENCE = 15;
-	public static String CONFIG_MOTD = "B30016";
-	public static String CONFIG_MOTD_COLOR = "";
+	public static String CONFIG_MOTD = "Bienvenue sur Rubrum Solem";
 	public static boolean write_in_console = false;
 	public static boolean CONFIG_POLICY = false;
 	public static int CONFIG_REALM_PORT = 443;
@@ -176,7 +175,6 @@ public class Config {
 
 			CONFIG_POLICY = Boolean.parseBoolean(prop.getProperty("SEND_POLICY"));
 			CONFIG_MOTD = prop.getProperty("MOTD");
-			CONFIG_MOTD_COLOR = prop.getProperty("MOTD_COLOR");
 
 			Allow_Clear_Console = Boolean.parseBoolean(prop.getProperty("ALLOW_CLEAR_CONSOLE"));
 			Allow_Refresh_Title = Boolean.parseBoolean(prop.getProperty("ALLOW_REFRESH_TITLE"));

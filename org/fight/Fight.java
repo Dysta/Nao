@@ -47,6 +47,7 @@ import org.object.Maps.Case;
 import org.object.Objects.ObjTemplate;
 import org.spell.Spell;
 import org.spell.SpellEffect;
+import org.utils.Colors;
 import org.spell.Spell.SortStats;
 
 public class Fight {
@@ -3764,7 +3765,7 @@ public class Fight {
 				for (Fighter p : getAllFighters()) {
 					if (cell == p.get_fightCell()) {
 						SocketManager.GAME_SEND_MESSAGE(perso, "La case visée n'est pas disponible.",
-								Config.CONFIG_MOTD_COLOR);
+								Colors.RED);
 						return false;
 					}
 				}
@@ -3782,7 +3783,7 @@ public class Fight {
 		 * |Return,Skryn, j'ai refais le buff 9 ;) if (spell.getSpellID() ==
 		 * 435){ if (fighter.hasBuff(9)){ SocketManager.GAME_SEND_MESSAGE(perso,
 		 * "Le sort Transfert de Vie est innutilisable lorsque vous êtes sous
-		 * l'emprise du sort Dérobade.", Config.CONFIG_MOTD_COLOR); return
+		 * l'emprise du sort Dérobade.", Colors.RED); return
 		 * false; } }
 		 **/
 		// Si le sort demande une ligne de vue et que la case demandée n'en fait
@@ -3857,7 +3858,7 @@ public class Fight {
 		if ((spell.getSpellID() == 438 || spell.getSpellID() == 445) && HasUsedCoopTranspo()) {
 			SocketManager.GAME_SEND_MESSAGE(perso,
 					"Il est impossible de lancer coopération et transposition dans un même tour de jeu !",
-					Config.CONFIG_MOTD_COLOR);
+					Colors.RED);
 			return false;
 		}
 		return true;
@@ -4378,7 +4379,7 @@ public class Fight {
 					SocketManager.GAME_SEND_MESSAGE(i.getPersonnage(),
 							"Fécilitation ! Vous remportez ce match de kolizeum."
 									+ "\nVous gagnez 5 000 000 d'expérience ainsi que 2 Kolizetons et 10 000 000 de kamas.",
-							Config.CONFIG_MOTD_COLOR);
+							Colors.RED);
 					Logs.addToGameLog("Le personnage " + i.getPersonnage()
 							+ " a gagné son match de kolizeum et reçoit les récompenses");
 					/** Spécial Kolizeum Débugs **/
@@ -4536,7 +4537,7 @@ public class Fight {
 						P.setDeshonor(P.getDeshonor() + winD);
 						SocketManager.GAME_SEND_MESSAGE(P,
 								"Vous venez de remporter la victoire ! Vous gagnez " + winH + " points d'honneur !",
-								Config.CONFIG_MOTD_COLOR);
+								Colors.RED);
 						Packet.append("2;").append(i.getGUID()).append(";").append(i.getPacketsName()).append(";")
 								.append(i.get_lvl()).append(";").append((i.isDead() ? "1" : "0")).append(";");
 						Packet.append(
@@ -4577,7 +4578,7 @@ public class Fight {
 		for (Fighter i : TEAM2) {
 			if (i.getPersonnage() != null && i.getPersonnage().getKolizeum() == 1) {
 				SocketManager.GAME_SEND_MESSAGE(i.getPersonnage(),
-						"Dommage, vous avez perdu ! Mais retentez vite votre chance ...", Config.CONFIG_MOTD_COLOR);
+						"Dommage, vous avez perdu ! Mais retentez vite votre chance ...", Colors.RED);
 				i.getPersonnage().setKolizeum(-1);
 				i.getPersonnage().teleport(i.getPersonnage().getLastMapFight(),
 						World.getCarte(i.getPersonnage().getLastMapFight()).getRandomFreeCellID());
@@ -5488,7 +5489,7 @@ public class Fight {
 					 * if (caster.hasBuff(9)){ if (SE.getEffectID() == 90){
 					 * SocketManager.GAME_SEND_MESSAGE(caster.getPersonnage(),
 					 * "Sort innutilisable quand dérobage est actif !",
-					 * Config.CONFIG_MOTD_COLOR); } }
+					 * Colors.RED); } }
 					 **/
 					SE.applyToFight(this, caster, cibles, true);
 				}
@@ -6024,7 +6025,7 @@ public class Fight {
 										continue;
 									if (z.isOnline()) {
 										SocketManager.GAME_SEND_gITM_PACKET(z, Collector.parsetoGuild(z.get_guild().get_id()));
-										SocketManager.GAME_SEND_MESSAGE(z, "Votre percepteur remporte la victoire.", Config.CONFIG_MOTD_COLOR);
+										SocketManager.GAME_SEND_MESSAGE(z, "Votre percepteur remporte la victoire.", Colors.RED);
 										//TODO Vérif si c'est utile d'envoyer le message
 									}
 								}

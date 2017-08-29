@@ -18,7 +18,6 @@ import org.fight.extending.Team;
 import org.fight.object.Stalk;
 import org.game.GameSendThread;
 import org.game.GameThread;
-import org.game.tools.AllColors;
 import org.game.tools.Utils;
 import org.kernel.Config;
 import org.kernel.Logs;
@@ -28,6 +27,7 @@ import org.object.Objects;
 import org.object.Objects.ObjTemplate;
 import org.object.job.Job.StatsMetier;
 import org.spell.Spell.SortStats;
+import org.utils.Colors;
 import org.spell.SpellEffect;
 
 public class PlayerCommand {
@@ -45,7 +45,7 @@ public class PlayerCommand {
 				int price = command.getPrice();
 				int diff = 0;
 				if (command.getCond() != null && !ConditionParser.validConditions(_perso, command.getCond())) {
-					SocketManager.GAME_SEND_MESSAGE(_perso, "Vous ne remplissez pas les conditions nécessaires pour éxécuter cette commande !", Config.CONFIG_MOTD_COLOR);
+					SocketManager.GAME_SEND_MESSAGE(_perso, "Vous ne remplissez pas les conditions nécessaires pour éxécuter cette commande !", Colors.RED);
 					return false;
 				}
 
@@ -55,7 +55,7 @@ public class PlayerCommand {
 					diff = 0;
 
 					if (points < price) {
-						SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'avez pas assez de points, il vous manque " + (price - points) + " points !", Config.CONFIG_MOTD_COLOR);
+						SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'avez pas assez de points, il vous manque " + (price - points) + " points !", Colors.RED);
 						return true;
 					}
 				}
@@ -73,11 +73,11 @@ public class PlayerCommand {
 					
 					switch (type) {
 					case 0: // Liste des commandes
-						SocketManager.GAME_SEND_MESSAGE(_perso, PlayerCommandManager.getCommandList(false), Config.CONFIG_MOTD_COLOR);
+						SocketManager.GAME_SEND_MESSAGE(_perso, PlayerCommandManager.getCommandList(false), Colors.RED);
 						useSuccess = true;
 						break;
 					case 1: // Liste des commandes VIP
-						SocketManager.GAME_SEND_MESSAGE(_perso, PlayerCommandManager.getCommandList(true), Config.CONFIG_MOTD_COLOR);
+						SocketManager.GAME_SEND_MESSAGE(_perso, PlayerCommandManager.getCommandList(true), Colors.RED);
 						useSuccess = true;
 						break;
 					case 2: // Envoyer une message
@@ -105,7 +105,7 @@ public class PlayerCommand {
 								+ "Personnages en ligne : <b>" + Main.gameServer.getPlayerNumber() + "</b>\n"
 								+ "Personne en ligne : <b>" + Main.gameServer.getClientUnique() + "</b>\n"
 								+ "Record de connecté : <b>" + Main.gameServer.getMaxPlayer() + "</b>";
-						SocketManager.GAME_SEND_MESSAGE(_perso, infos, Config.CONFIG_MOTD_COLOR);
+						SocketManager.GAME_SEND_MESSAGE(_perso, infos, Colors.RED);
 						useSuccess = true;
 						break;
 					case 5: // Staff en ligne
@@ -138,10 +138,10 @@ public class PlayerCommand {
 							}
 						}
 						if (!staff.isEmpty() && !allOffline) {
-							SocketManager.GAME_SEND_MESSAGE(_perso, staff, Config.CONFIG_MOTD_COLOR);
+							SocketManager.GAME_SEND_MESSAGE(_perso, staff, Colors.RED);
 						} else if (allOffline) {
 							SocketManager.GAME_SEND_MESSAGE(_perso, "Aucun membre du staff est présent !",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 						}
 						useSuccess = true;
 						break;
@@ -152,7 +152,7 @@ public class PlayerCommand {
 						_timeLastsave = System.currentTimeMillis();
 						SQLManager.SAVE_PERSONNAGE(_perso, true);
 						SocketManager.GAME_SEND_MESSAGE(_perso, "Votre personnage <b>" + _perso.get_name() + "</b> est sauvegardé.",
-								Config.CONFIG_MOTD_COLOR);
+								Colors.RED);
 						useSuccess = true;
 						break;
 					case 7: // Rafraichissement de Map
@@ -172,7 +172,7 @@ public class PlayerCommand {
 						perso.set_PDV(newPDV);
 						if (perso.isOnline())
 							SocketManager.GAME_SEND_STATS_PACKET(perso);
-						SocketManager.GAME_SEND_MESSAGE(_perso, "Votre vie est désormais au maximum !", Config.CONFIG_MOTD_COLOR);
+						SocketManager.GAME_SEND_MESSAGE(_perso, "Votre vie est désormais au maximum !", Colors.RED);
 						useSuccess = true;
 						break;
 					case 9: // Création de guilde
@@ -224,11 +224,11 @@ public class PlayerCommand {
 
 						if (nbreElement == 0) {
 							SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes déjà parchotté dans tout les éléments !",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 						} else {
 							SocketManager.GAME_SEND_STATS_PACKET(_perso);
 							SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes parchotté dans tout les éléments !",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 						}
 						useSuccess = true;
 						break;
@@ -323,11 +323,11 @@ public class PlayerCommand {
 						try {
 							morphID = Integer.parseInt(msg.substring(command.getName().length() + 2, msg.length() - 1).trim());
 						} catch (Exception e) {
-							SocketManager.GAME_SEND_MESSAGE(_perso, "Faites ." + command.getName() + " morphID", Config.CONFIG_MOTD_COLOR);
+							SocketManager.GAME_SEND_MESSAGE(_perso, "Faites ." + command.getName() + " morphID", Colors.RED);
 							break;
 						}
 						if (!Config.CONFIG_MORPH_ALLOWED.contains(morphID) || morphID == -1) {
-							SocketManager.GAME_SEND_MESSAGE(_perso, "MorphID non autorisé. MorphID autorisé : " + Config.CONFIG_MORPH_ALLOWED, Config.CONFIG_MOTD_COLOR);
+							SocketManager.GAME_SEND_MESSAGE(_perso, "MorphID non autorisé. MorphID autorisé : " + Config.CONFIG_MORPH_ALLOWED, Colors.RED);
 							break;
 						}
 						_perso.set_gfxID(morphID);
@@ -390,38 +390,38 @@ public class PlayerCommand {
 							split = msg.substring(command.getName().length() + 2, msg.length() - 1);
 						} catch (Exception e) {
 							if (_perso.getKolizeum() == 0)
-								SocketManager.GAME_SEND_MESSAGE(_perso,"Vous êtes déjà inscris au Kolizeum ! Faites |<b> ." + command.getName()+ " off </b>| pour vous désinscrire...",Config.CONFIG_MOTD_COLOR);
+								SocketManager.GAME_SEND_MESSAGE(_perso,"Vous êtes déjà inscris au Kolizeum ! Faites |<b> ." + command.getName()+ " off </b>| pour vous désinscrire...",Colors.RED);
 							else if (_perso.getKolizeum() == 1)
-								SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes en combat d'arène !", Config.CONFIG_MOTD_COLOR);
+								SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes en combat d'arène !", Colors.RED);
 							else
-								SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'êtes pas inscris, faites |<b> ." + command.getName() + " on </b>| pour vous inscrire !", Config.CONFIG_MOTD_COLOR);
+								SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'êtes pas inscris, faites |<b> ." + command.getName() + " on </b>| pour vous inscrire !", Colors.RED);
 							break;
 						}
 						if (split.equals("on")) {
 							if (_perso.getKolizeum() != -1) {
-								SocketManager.GAME_SEND_MESSAGE(_perso,"Vous êtes déjà inscris ou participez déjà au Kolizeum !",Config.CONFIG_MOTD_COLOR);
+								SocketManager.GAME_SEND_MESSAGE(_perso,"Vous êtes déjà inscris ou participez déjà au Kolizeum !",Colors.RED);
 								break;
 							}
 							if (_perso.getGroup() != null) {
 								if (_perso.getGroup().getPersos().size() != Config.KOLIMAX_PLAYER) {
-									SocketManager.GAME_SEND_MESSAGE(_perso, "Votre groupe doit contenir exactement " + Config.KOLIMAX_PLAYER + " joueurs !", Config.CONFIG_MOTD_COLOR);
+									SocketManager.GAME_SEND_MESSAGE(_perso, "Votre groupe doit contenir exactement " + Config.KOLIMAX_PLAYER + " joueurs !", Colors.RED);
 									break;
 								} else if (!_perso.getGroup().isChief(_perso.get_GUID())) {
-									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous devez être le chef de groupe pour vous inscrire !", Config.CONFIG_MOTD_COLOR);
+									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous devez être le chef de groupe pour vous inscrire !", Colors.RED);
 									break;
 								}
 								for (Characters c : _perso.getGroup().getPersos()) {
 									try {
 										if (c.getKolizeum() != -1) {
-											SocketManager.GAME_SEND_MESSAGE(_perso, "Le joueur " + c.get_name() + " est déjà inscris ou participe actuellement au kolizeum !", Config.CONFIG_MOTD_COLOR);
+											SocketManager.GAME_SEND_MESSAGE(_perso, "Le joueur " + c.get_name() + " est déjà inscris ou participe actuellement au kolizeum !", Colors.RED);
 											break;
 										}
 
 										else if (!c.isOnline()) {
-											SocketManager.GAME_SEND_MESSAGE(_perso, "Le joueur " + c.get_name() + " n'est pas connecté !", Config.CONFIG_MOTD_COLOR);
+											SocketManager.GAME_SEND_MESSAGE(_perso, "Le joueur " + c.get_name() + " n'est pas connecté !", Colors.RED);
 											break;
 										} else if (c.get_fight() != null) {
-											SocketManager.GAME_SEND_MESSAGE(_perso, "Le joueur " + c.get_name() + " est en combat !", Config.CONFIG_MOTD_COLOR);
+											SocketManager.GAME_SEND_MESSAGE(_perso, "Le joueur " + c.get_name() + " est en combat !", Colors.RED);
 											break;
 										} else {
 											Kolizeum.addGroup(_perso.getGroup());
@@ -433,7 +433,7 @@ public class PlayerCommand {
 							} else {
 								if (_perso.get_fight() != null) {
 									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes actuellement en combat !",
-											Config.CONFIG_MOTD_COLOR);
+											Colors.RED);
 									break;
 								} else {
 									Kolizeum.addPlayer(_perso);
@@ -446,11 +446,11 @@ public class PlayerCommand {
 
 								if (_perso.getKolizeum() == 1 && _perso.get_fight() != null) {
 									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes en plein tournoi !",
-											Config.CONFIG_MOTD_COLOR);
+											Colors.RED);
 									break;
 								} else if (_perso.getKolizeum() == -1) {
 									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'êtes pas inscris au kolizeum !",
-											Config.CONFIG_MOTD_COLOR);
+											Colors.RED);
 									break;
 								} else {
 									Kolizeum.delPlayer(_perso);
@@ -463,11 +463,11 @@ public class PlayerCommand {
 						} else if (split.equals("infos")) {
 							if (_perso.getKolizeum() == 1 && _perso.get_fight() != null) {
 								SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes en plein tournoi !",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								break;
 							} else if (_perso.getKolizeum() == -1) {
 								SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'êtes pas inscris au kolizeum !",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								break;
 							} else {
 								String content = null;
@@ -478,12 +478,12 @@ public class PlayerCommand {
 								else
 									content = "Votre équipe est au complet ! Patientez le temps qu'une autre équipe soit formée..";
 
-								SocketManager.GAME_SEND_MESSAGE(_perso, content, Config.CONFIG_MOTD_COLOR);
+								SocketManager.GAME_SEND_MESSAGE(_perso, content, Colors.RED);
 								break;
 							}
 						} else {
 							SocketManager.GAME_SEND_MESSAGE(_perso, "Tâche non reconnue, faites ." + command.getName()
-									+ " pour avoir des informations sur la commande.", AllColors.RED);
+									+ " pour avoir des informations sur la commande.", Colors.RED);
 							break;
 						}
 						break;
@@ -513,7 +513,7 @@ public class PlayerCommand {
 									.GAME_SEND_MESSAGE(_perso,
 											"Pour créer une équipe, invitez votre partenaire dans votre groupe, puis éxécutez ."
 													+ command.getName() + " + Nom de votre Team",
-											Config.CONFIG_MOTD_COLOR);
+											Colors.RED);
 							break;
 						}
 						if (s.length() > 20 || s.contains("#") || s.contains(",") || s.contains(";") || s.contains("/")
@@ -525,19 +525,19 @@ public class PlayerCommand {
 						{
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"Le nom de votre équipe ne doit pas contenir de caractères spéciaux !",
-									AllColors.RED);
+									Colors.RED);
 							break;
 						}
 						if (_perso.getGroup() != null) {
 							if (_perso.getGroup().getPersos().size() > 2) {
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"Votre groupe comporte plus de 2 joueurs ! L'arène est de type 2v2, ne l'oubliez pas !",
-										AllColors.RED);
+										Colors.RED);
 								break;
 							}
 							if (!_perso.getGroup().isChief(_perso.get_GUID())) {
 								SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'êtes pas chef de groupe !",
-										AllColors.RED);
+										Colors.RED);
 								break;
 							}
 							String players = "";
@@ -546,13 +546,13 @@ public class PlayerCommand {
 							for (Characters c : _perso.getGroup().getPersos()) {
 								if (classe == c.get_classe()) {
 									SocketManager.GAME_SEND_MESSAGE(_perso,
-											"Vous ne pouvez pas créer de team avec deux mêmes classes !", AllColors.RED);
+											"Vous ne pouvez pas créer de team avec deux mêmes classes !", Colors.RED);
 									break;
 								}
 								if (!Arena.isVerifiedTeam(_perso.get_classe(), c.get_classe())) {
 									SocketManager.GAME_SEND_MESSAGE(_perso,
 											"Vous ne pouvez pas créer de team avec deux classes type pillier ! (Xélor, Sacrieur, Eniripsa, Osamodas)",
-											AllColors.RED);
+											Colors.RED);
 									break;
 								}
 								if (first) {
@@ -568,7 +568,7 @@ public class PlayerCommand {
 									SocketManager.GAME_SEND_MESSAGE(c,
 											"La Team '<b>" + Team.getTeamByID(_perso.getTeamID()).getName()
 													+ "</b>' a été créée avec succès !",
-											AllColors.RED);
+											Colors.RED);
 								}
 								useSuccess = true;
 							}
@@ -576,7 +576,7 @@ public class PlayerCommand {
 						} else {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"Vous n'avez pas de groupe, et par conséquent, aucun partenaire à ajouter dans votre Team !",
-									AllColors.RED);
+									Colors.RED);
 							break;
 						}
 					case 30: // Delete de Team Arena
@@ -589,17 +589,17 @@ public class PlayerCommand {
 										"Etes vous sûr de vouloir détruire votre team ? (Quôte d'arène: "
 												+ Team.getTeamByID(_perso.getTeamID()).getCote()
 												+ ")\n Si oui, faites ." + command.getName() + " ok !",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 							else
 								SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'avez actuellement aucune team !",
-										AllColors.RED);
+										Colors.RED);
 							break;
 						}
 						if (string.equals("ok")) {
 							if (_perso.getArena() > -1)
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"Action impossible, vous êtes inscris, ou déjà en combat d'arène !",
-										AllColors.RED);
+										Colors.RED);
 							else {
 								Team.removeTeam(Team.getTeamByID(_perso.getTeamID()), _perso);
 								useSuccess = true;
@@ -607,7 +607,7 @@ public class PlayerCommand {
 							break;
 						} else {
 							SocketManager.GAME_SEND_MESSAGE(_perso, "Tâche non reconnue, faites ." + command.getName()
-									+ " pour avoir des informations sur la commande.", AllColors.RED);
+									+ " pour avoir des informations sur la commande.", Colors.RED);
 							break;
 						}
 					case 31: // Informations de Team Arena
@@ -620,13 +620,13 @@ public class PlayerCommand {
 											+ "Partenaire: <b>" + coep.get_name() + "</b>\n" + "Côte: <b>"
 											+ Team.getTeamByID(_perso.getTeamID()).getCote() + "</b>\n" + "Rang: <b>"
 											+ Team.getTeamByID(_perso.getTeamID()).getRank() + "</b>",
-									AllColors.RED);
+									Colors.RED);
 								useSuccess = true;
 							}
 							break;
 						} else {
 							SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'avez pas d'équipe d'arène 2v2 !",
-									AllColors.RED);
+									Colors.RED);
 							break;
 						}
 					case 32: // Arena Inscription/Désinscription
@@ -638,39 +638,39 @@ public class PlayerCommand {
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"Vous êtes déjà inscris au tournoi d'arène 2v2 ! Faites |<b> ."
 												+ command.getName() + " off </b>| pour vous désinscrire...",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 							else if (_perso.getArena() == 1)
 								SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes en combat d'arène !",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 							else
 								SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'êtes pas inscris, faites |<b> ."
 										+ command.getName() + " on </b>| pour vous inscrire !",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 							break;
 						}
 						if (arena.equals("on")) {
 							if (_perso.getTeamID() < 0) {
 								SocketManager.GAME_SEND_MESSAGE(_perso, "Vous ne possédez aucune Team ! (<b>."
 										+ command.getName() + "</b> pour plus d'informations)",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								break;
 							} else if (_perso.getGroup() == null) {
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"Vous devez être grouppé avec votre partenaire de Team ! (<b>."
 												+ command.getName() + "</b> pour plus d'informations)",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								break;
 							} else {
 								if (_perso.getGroup().getPersos().size() > 2
 										|| _perso.getGroup().getPersos().size() < 2) {
 									SocketManager.GAME_SEND_MESSAGE(_perso,
 											"Votre groupe doit contenir exactement deux joueurs ! Vous, et votre partenaire de Team !",
-											Config.CONFIG_MOTD_COLOR);
+											Colors.RED);
 									break;
 								} else if (!_perso.getGroup().isChief(_perso.get_GUID())) {
 									SocketManager.GAME_SEND_MESSAGE(_perso,
 											"Vous devez être le chef de groupe pour vous inscrire !",
-											Config.CONFIG_MOTD_COLOR);
+											Colors.RED);
 									break;
 								}
 								for (Characters c : _perso.getGroup().getPersos()) {
@@ -679,25 +679,25 @@ public class PlayerCommand {
 											SocketManager.GAME_SEND_MESSAGE(_perso,
 													"Le joueur " + c.get_name()
 															+ " n'est pas votre partenaire de Team !",
-													Config.CONFIG_MOTD_COLOR);
+													Colors.RED);
 											break;
 										}
 
 										else if (!c.isOnline()) {
 											SocketManager.GAME_SEND_MESSAGE(_perso,
 													"Le joueur " + c.get_name() + " n'est pas connecté !",
-													Config.CONFIG_MOTD_COLOR);
+													Colors.RED);
 											break;
 										} else if (c.get_fight() != null) {
 											SocketManager.GAME_SEND_MESSAGE(_perso,
 													"Le joueur " + c.get_name() + " est en combat !",
-													Config.CONFIG_MOTD_COLOR);
+													Colors.RED);
 											break;
 										} else if (c.getArena() != -1) {
 											SocketManager.GAME_SEND_MESSAGE(_perso,
 													"Le joueur " + c.get_name()
 															+ " est déjà inscris au tournoi d'arène 2v2 !",
-													Config.CONFIG_MOTD_COLOR);
+													Colors.RED);
 											break;
 										} else {
 											Arena.addTeam(Team.getTeamByID(_perso.getTeamID()));
@@ -715,11 +715,11 @@ public class PlayerCommand {
 											.GAME_SEND_MESSAGE(_perso,
 													"Vous ne possédez aucune Team ! (<b>." + command.getName()
 															+ "</b> pour plus d'informations)",
-													Config.CONFIG_MOTD_COLOR);
+													Colors.RED);
 									break;
 								} else if (_perso.getArena() == 1 && _perso.get_fight() != null) {
 									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes en plein tournoi !",
-											Config.CONFIG_MOTD_COLOR);
+											Colors.RED);
 									break;
 								} else {
 									Arena.delTeam(Team.getTeamByID(_perso.getTeamID()));
@@ -730,7 +730,7 @@ public class PlayerCommand {
 							}
 						} else {
 							SocketManager.GAME_SEND_MESSAGE(_perso, "Tâche non reconnue, faites ." + command.getName()
-									+ " pour avoir des informations sur la commande.", AllColors.RED);
+									+ " pour avoir des informations sur la commande.", Colors.RED);
 							break;
 						}
 						break;
@@ -746,7 +746,7 @@ public class PlayerCommand {
 									+ command.getName() + " remove [name]</b> pour supprimer un stuff\n" + "<b>."
 									+ command.getName() + " view</b> pour voir tous vos stuffs rapides disponibles\n"
 									+ "<b>." + command.getName() + " equip [name]</b> pour équiper un stuff rapidement",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						}
 
@@ -756,7 +756,7 @@ public class PlayerCommand {
 							if (_perso.getRapidStuffs().size() > 9) {
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"Vous ne pouvez pas avoir plus de 10 stuffs rapides !",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								break;
 							}
 							String name = "";
@@ -764,7 +764,7 @@ public class PlayerCommand {
 								name = msg.substring(command.getName().length() + 9, msg.length() - 1);
 							} catch (Exception e) {
 								SocketManager.GAME_SEND_MESSAGE(_perso, "Erreur ! Entrez un nom à votre stuff rapide: ."
-										+ command.getName() + " create [name]", Config.CONFIG_MOTD_COLOR);
+										+ command.getName() + " create [name]", Colors.RED);
 								break;
 							}
 
@@ -792,10 +792,10 @@ public class PlayerCommand {
 											+ dofus6))
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"Erreur ! Un stuff rapide est identique ou le nom est déjà utilisé !",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 							else {
 								SocketManager.GAME_SEND_MESSAGE(_perso, "Nouveau stuff enregistré avec succès !",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								useSuccess = true;
 							}
 							break;
@@ -812,21 +812,21 @@ public class PlayerCommand {
 										.GAME_SEND_MESSAGE(_perso,
 												"Erreur ! Entrez le nom du stuff rapide à supprimer: "
 														+ command.getName() + " remove [name]",
-												Config.CONFIG_MOTD_COLOR);
+												Colors.RED);
 								break;
 							}
 							if (_perso.getRapidStuffByName(name) != null
 									&& RapidStuff.removeRapidStuff(_perso.getRapidStuffByName(name))){
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"Le stuff <b>" + name + "</b> a été supprimé avec succès !",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								useSuccess = true;
 							}
 							else
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"Le stuff rapide <b>" + name + "</b> est innéxistant ! Faites ."
 												+ command.getName() + " view pour avoir la liste.",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 							break;
 						}
 
@@ -834,7 +834,7 @@ public class PlayerCommand {
 							String list = null;
 							if (_perso.getRapidStuffs().isEmpty()) {
 								SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'avez aucun équipement rapide !",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								break;
 							} else {
 								for (RapidStuff ss : _perso.getRapidStuffs()) {
@@ -846,7 +846,7 @@ public class PlayerCommand {
 								}
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"\n\n<b>Faites " + command.getName() + " equip + [name] :</b>\n" + list,
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								break;
 							}
 						}
@@ -862,7 +862,7 @@ public class PlayerCommand {
 										.GAME_SEND_MESSAGE(
 												_perso, "Erreur ! Entrez le nom du stuff rapide à équiper: "
 														+ command.getName() + " equip [name]",
-												Config.CONFIG_MOTD_COLOR);
+												Colors.RED);
 								break;
 							}
 
@@ -878,7 +878,7 @@ public class PlayerCommand {
 												"L'item <b>"
 														+ World.getObjet(rapidStuff.getGuid()).getTemplate().getName()
 														+ "</b> ne vous appartient plus et n'a pas pu être équipé !",
-												Config.CONFIG_MOTD_COLOR);
+												Colors.RED);
 										continue;
 									} else {
 										int pos = Constant.getObjectPosByType(rapidStuff.getTemplate().getType()); //pos
@@ -929,7 +929,7 @@ public class PlayerCommand {
 							} else {
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"Erreur ! Nom incorrect: " + command.getName() + " equip [name]",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								break;
 							}
 						}
@@ -940,14 +940,14 @@ public class PlayerCommand {
 									+ command.getName() + " remove [name]</b> pour supprimer un stuff\n" + "<b>"
 									+ command.getName() + " view</b> pour voir tous vos stuffs rapides disponbiles\n"
 									+ "<b>" + command.getName() + " equip [name]</b> pour équiper un stuff rapidement",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						}
 					case 34: // Affichage des points du compte
 						int accountPoints = Utils.loadPointsByAccount(_perso.get_compte());
 						SocketManager.GAME_SEND_MESSAGE(_perso,
 								"Vous avez " + accountPoints + " points boutiques !",
-								Config.CONFIG_MOTD_COLOR);
+								Colors.RED);
 						useSuccess = true;
 						break;
 					case 35: // Job levelUp
@@ -959,7 +959,7 @@ public class PlayerCommand {
 						} catch (Exception e) {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"<b>Liste(Faites . "+command.getName()+" + Job):<br /></b> Cordomage,joaillomage,costumage,dague,epee,marteau,pelle,hache,arc,baguette,baton",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							return true;
 						}
 
@@ -998,7 +998,7 @@ public class PlayerCommand {
 							job = 50;
 						} else {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
-									"Metier non reconnu, faites ."+command.getName()+" pour avoir la liste", Config.CONFIG_MOTD_COLOR);
+									"Metier non reconnu, faites ."+command.getName()+" pour avoir la liste", Colors.RED);
 							return true;
 						}
 
@@ -1012,7 +1012,7 @@ public class PlayerCommand {
 						SM.addXp(_perso, 1000000);
 						SocketManager.GAME_SEND_MESSAGE(_perso,
 								"Vous avez appris le métier avec succès et avez reçu l'arme de FM disponibles dans votre inventaire",
-								Config.CONFIG_MOTD_COLOR);
+								Colors.RED);
 						useSuccess = true;
 						break;
 					case 36: // Modifier la taille du personnage
@@ -1047,18 +1047,18 @@ public class PlayerCommand {
 							if (_perso.get_kamas() < prix) {
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"Action impossible : vous avez moins de " + prix + " k",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								return true;
 
 							} else if (_perso.get_fight() != null) {
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"Action impossible : vous ne devez pas être en combat",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								return true;
 
 							} else if (object == null) {
 								SocketManager.GAME_SEND_MESSAGE(_perso, "Action impossible : vous ne portez pas d'arme",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								return true;
 							}
 
@@ -1071,7 +1071,7 @@ public class PlayerCommand {
 							if (!containNeutre) {
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"Action impossible : votre arme n'a pas de dégats neutre",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								return true;
 							}
 
@@ -1082,7 +1082,7 @@ public class PlayerCommand {
 							} catch (Exception e) {
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"Action impossible : vous n'avez pas spécifié l'élément (air, feu, terre, eau) qui remplacera les dégats/vols de vies neutres",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								return true;
 							}
 
@@ -1091,7 +1091,7 @@ public class PlayerCommand {
 								SocketManager.GAME_SEND_MESSAGE(_perso,
 										"Action impossible : l'élément " + answer
 												+ " n'existe pas ! (dispo : air, feu, terre, eau)",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								return true;
 							}
 
@@ -1136,7 +1136,7 @@ public class PlayerCommand {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"Votre objet <b>" + object.getTemplate().getName()
 											+ "</b> a été forgemagé avec succès en " + answer,
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							SocketManager.GAME_SEND_OCO_PACKET(_perso, object);
 							useSuccess = true;
 						} catch (Exception e) {
@@ -1217,7 +1217,7 @@ public class PlayerCommand {
 								for (String title : titles.split(",")) {
 									liste += "<b>" + title + "</b> \n";
 								}
-								SocketManager.GAME_SEND_MESSAGE(_perso, liste, Config.CONFIG_MOTD_COLOR);
+								SocketManager.GAME_SEND_MESSAGE(_perso, liste, Colors.RED);
 								 */
 								return true;
 							}
@@ -1234,13 +1234,13 @@ public class PlayerCommand {
 								_perso.set_name(_perso.get_name().replace("[V.I.P]", ""));
 								SocketManager.GAME_SEND_ALTER_GM_PACKET(_perso.get_curCarte(), _perso);
 								SocketManager.GAME_SEND_MESSAGE(_perso, "La tag V.I.P a bien été enlever de votre nom.",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								break;
 							} else {
 								_perso.set_name("[V.I.P] " + _perso.get_name());
 								SocketManager.GAME_SEND_ALTER_GM_PACKET(_perso.get_curCarte(), _perso);
 								SocketManager.GAME_SEND_MESSAGE(_perso, "La tag V.I.P a bien été ajouter à votre nom.",
-										Config.CONFIG_MOTD_COLOR);
+										Colors.RED);
 								useSuccess = true;
 								break;
 							}
@@ -1252,7 +1252,7 @@ public class PlayerCommand {
 						int normal = _perso.get_classe() * 10 + _perso.get_sexe();
 						if (_perso.get_gfxID() == normal) {
 							SocketManager.GAME_SEND_MESSAGE(_perso, "Votre apparence est déjà normal !",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						}
 						_perso.set_gfxID(normal);
@@ -1268,7 +1268,7 @@ public class PlayerCommand {
 						if (_perso.get_fight() != null) {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"Commande inutilisable en combat.",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						}
 
@@ -1279,7 +1279,7 @@ public class PlayerCommand {
 									"Faite ." + command.getName()
 											+ " <b>catégorie</b> pour ajouter 1 PA à votre objet. " 
 											+ "Catégorie : " + cat,
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						}
 
@@ -1301,7 +1301,7 @@ public class PlayerCommand {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"<b>Vous avez indiqué une catégorie inexistante</b>. <br />Catégorie : " + cat
 											+ "<br />Vous êtes remboursé.",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							Utils.updatePointsByAccount(_perso.get_compte(),
 									command.getPrice() + Utils.loadPointsByAccount(_perso.get_compte()));
 							break;
@@ -1310,7 +1310,7 @@ public class PlayerCommand {
 						if (items == null) {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"<b>Vous n'avez pas d'item</b>.",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						}
 
@@ -1319,7 +1319,7 @@ public class PlayerCommand {
 						if (stats.getEffect(111) > 0 || stats.getEffect(128) > 0) {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"<b>L'item choisi donne déjà 1 PA ou 1 PM</b>.",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						} else {
 							items.getStats().addOneStat(128, 1);
@@ -1327,7 +1327,7 @@ public class PlayerCommand {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"Votre <b>" + ((Objects) items).getTemplate().getName()
 											+ "</b> donne désormais +1 PM en plus de ses jets habituels !",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							SocketManager.GAME_SEND_OCO_PACKET(_perso, items);
 							useSuccess = true;
 						}
@@ -1340,7 +1340,7 @@ public class PlayerCommand {
 						if (_perso.get_fight() != null) {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"Commande inutilisable en combat.",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						}
 
@@ -1351,7 +1351,7 @@ public class PlayerCommand {
 									"Faite ." + command.getName()
 											+ " <b>catégorie</b> pour ajouter 1 PA à votre objet. "
 											+ "Catégorie : " + cat1,
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						}
 
@@ -1373,14 +1373,14 @@ public class PlayerCommand {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"<b>Vous avez indiqué une catégorie inexistante</b>. "
 									+ "Catégorie : " + cat1,
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						}
 
 						if (items1 == null) {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"<b>Vous n'avez pas d'item</b>.",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						}
 
@@ -1389,7 +1389,7 @@ public class PlayerCommand {
 						if (stats1.getEffect(111) > 0 || stats1.getEffect(128) > 0) {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"<b>L'item choisi donne déjà 1 PA ou 1 PM</b>.",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						} else {
 							items1.getStats().addOneStat(111, 1);
@@ -1397,7 +1397,7 @@ public class PlayerCommand {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"Votre <b>" + ((Objects) items1).getTemplate().getName()
 											+ "</b> donne désormais +1 PA en plus de ses jets habituels !",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							SocketManager.GAME_SEND_OCO_PACKET(_perso, items1);
 							useSuccess = true;
 						}
@@ -1410,7 +1410,7 @@ public class PlayerCommand {
 						if (_perso.get_fight() != null) {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"Commande inutilisable en combat.",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						}
 
@@ -1421,7 +1421,7 @@ public class PlayerCommand {
 									"Faite ." + command.getName()
 											+ " <b>catégorie</b> pour obtenir le même objet en JP. "
 											+ "Catégorie : " + cat3,
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						}
 
@@ -1443,14 +1443,14 @@ public class PlayerCommand {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"<b>Vous avez indiqué une catégorie inexistante</b>. "
 									+ "Catégorie : " + cat3,
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						}
 
 						if (items3 == null) {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
 									"<b>Vous n'avez pas d'item</b>.",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							break;
 						} else {
 							ObjTemplate t2 = World.getObjTemplate(items3.getTemplate().getID()); // On créer le template de l'objet
@@ -1459,7 +1459,7 @@ public class PlayerCommand {
 								World.addObjet(obj2, true); // On envoi l'item
 							SocketManager.GAME_SEND_MESSAGE(_perso, "Vous avez obtenu <b>"
 									+ items3.getTemplate().getName() + "</b> avec ces effets maximum",
-									Config.CONFIG_MOTD_COLOR);
+									Colors.RED);
 							SocketManager.GAME_SEND_Ow_PACKET(_perso);
 							useSuccess = true;
 						}
@@ -1482,7 +1482,7 @@ public class PlayerCommand {
 							}
 							_perso.set_tag("["+tag+"]-");
 							SocketManager.GAME_SEND_ALTER_GM_PACKET(_perso.get_curCarte(), _perso);
-							SocketManager.GAME_SEND_MESSAGE(_perso, "Le tag a été mis en place.",Config.CONFIG_MOTD_COLOR);
+							SocketManager.GAME_SEND_MESSAGE(_perso, "Le tag a été mis en place.",Colors.RED);
 							useSuccess = true;
 							break;
 						} catch (Exception e) {
@@ -1494,12 +1494,12 @@ public class PlayerCommand {
 							if (_perso.get_fight() != null)
 								break;
 							if(_perso.get_tag() == null){ // On évite le spam fumé
-								SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'avez pas de tag !", Config.CONFIG_MOTD_COLOR);
+								SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'avez pas de tag !", Colors.RED);
 								break;
 							}
 							_perso.set_tag(null);
 							SocketManager.GAME_SEND_ALTER_GM_PACKET(_perso.get_curCarte(), _perso);
-							SocketManager.GAME_SEND_MESSAGE(_perso, "Le tag a été supprimé.",Config.CONFIG_MOTD_COLOR);
+							SocketManager.GAME_SEND_MESSAGE(_perso, "Le tag a été supprimé.",Colors.RED);
 							useSuccess = true;
 							break;
 						} catch (Exception e) {
@@ -1513,15 +1513,15 @@ public class PlayerCommand {
 								classe = Integer.parseInt(msg.substring(command.getName().length() + 2, msg.length() - 1));
 							} catch (Exception e){
 								SocketManager.GAME_SEND_MESSAGE(_perso, 
-										"Faites ." + command.getName() + " 1/2/3/4/5/6/7/8/9/10/11/12 pour changer de classe" , Config.CONFIG_MOTD_COLOR);
+										"Faites ." + command.getName() + " 1/2/3/4/5/6/7/8/9/10/11/12 pour changer de classe" , Colors.RED);
 								break;
 							}
 			                if (classe == _perso.get_classe()) { // On évite le reset perso gratuit ;p
-			                    SocketManager.GAME_SEND_MESSAGE(_perso, "Vous etes déjà de cette classe", Config.CONFIG_MOTD_COLOR);
+			                    SocketManager.GAME_SEND_MESSAGE(_perso, "Vous etes déjà de cette classe", Colors.RED);
 			                    break;
 			                }
 			                if(classe < 1 || classe > 12) { // On évite les bugs chelou
-			                    SocketManager.GAME_SEND_MESSAGE(_perso, "Classe invalide", Config.CONFIG_MOTD_COLOR);
+			                    SocketManager.GAME_SEND_MESSAGE(_perso, "Classe invalide", Colors.RED);
 			                    break;
 			                }
 
@@ -1559,7 +1559,7 @@ public class PlayerCommand {
 			                SocketManager.GAME_SEND_Ow_PACKET(_perso);
 			                SocketManager.GAME_SEND_ASK(_perso.get_compte().getGameThread().get_out(), _perso);
 			                SocketManager.GAME_SEND_SPELL_LIST(_perso);
-			                SocketManager.GAME_SEND_MESSAGE(_perso, "Félicitation ! Vous avez changé de classe avec succès !", Config.CONFIG_MOTD_COLOR);
+			                SocketManager.GAME_SEND_MESSAGE(_perso, "Félicitation ! Vous avez changé de classe avec succès !", Colors.RED);
 			                useSuccess = true;
 
 						} catch (Exception e) {
@@ -1569,7 +1569,7 @@ public class PlayerCommand {
 					case 54 : // Gang
 						if (_perso.get_fight() != null) {
 							SocketManager.GAME_SEND_MESSAGE(_perso,
-									"Vous ne pouvez pas utiliser cette commande en combat.", Config.CONFIG_MOTD_COLOR);
+									"Vous ne pouvez pas utiliser cette commande en combat.", Colors.RED);
 							break;
 						}
 						
@@ -1577,17 +1577,17 @@ public class PlayerCommand {
 							// On créer l'escouade
 							if ((msg.substring(command.getName().length() + 2, msg.length() - 1)).equalsIgnoreCase("create")){
 								if(_perso.get_maitre() != null || _perso.isEsclave()){
-									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes déjà membre d'une escouade. Faites <b>." + command.getName() + " delete</b> pour la supprimer.", Config.CONFIG_MOTD_COLOR);
+									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes déjà membre d'une escouade. Faites <b>." + command.getName() + " delete</b> pour la supprimer.", Colors.RED);
 									break;
 								}
 								_perso.set_maitre(new Maitre(_perso));
 								if (_perso.get_maitre() != null) {
 									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous venez de créer votre escouade. Vous avez <b>" + _perso.get_maitre().getEsclaves().size()
-											+ " membres</b> dedans.", Config.CONFIG_MOTD_COLOR);
+											+ " membres</b> dedans.", Colors.RED);
 									useSuccess = true;
 									break;
 								} else {
-									SocketManager.GAME_SEND_MESSAGE(_perso, "Aucun joueur n'a pus être ajouté à votre escouade.", Config.CONFIG_MOTD_COLOR);
+									SocketManager.GAME_SEND_MESSAGE(_perso, "Aucun joueur n'a pus être ajouté à votre escouade.", Colors.RED);
 									break;
 								}
 							}
@@ -1595,7 +1595,7 @@ public class PlayerCommand {
 							// On dissous l'escouade
 							if ((msg.substring(command.getName().length() + 2, msg.length() - 1)).equalsIgnoreCase("delete")){
 								if(_perso.isEsclave()){
-									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous ne pouvez pas donner cette ordre, vous n'êtes pas le chef.", Config.CONFIG_MOTD_COLOR);
+									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous ne pouvez pas donner cette ordre, vous n'êtes pas le chef.", Colors.RED);
 									break;
 								}
 								if (_perso.get_maitre() != null) {
@@ -1603,11 +1603,11 @@ public class PlayerCommand {
 										p.setEsclave(false);
 									}
 									_perso.set_maitre(null);
-									SocketManager.GAME_SEND_MESSAGE(_perso, "Votre escouade a été dissoute.", Config.CONFIG_MOTD_COLOR);
+									SocketManager.GAME_SEND_MESSAGE(_perso, "Votre escouade a été dissoute.", Colors.RED);
 									useSuccess = true;
 									break;
 								} else {
-									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'avez pas d'escouade.", Config.CONFIG_MOTD_COLOR);
+									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'avez pas d'escouade.", Colors.RED);
 									break;
 								}
 							}
@@ -1616,42 +1616,42 @@ public class PlayerCommand {
 							if ((msg.substring(command.getName().length() + 2, msg.length() - 1)).equalsIgnoreCase("join")){
 								/* TODO
 								if(System.currentTimeMillis() - _perso.getGameClient().timeLastTP < 10000) {
-				                    SocketManager.GAME_SEND_MESSAGE(_perso, "Cette commande est disponible toute les 10 secondes.", Config.CONFIG_MOTD_COLOR);
+				                    SocketManager.GAME_SEND_MESSAGE(_perso, "Cette commande est disponible toute les 10 secondes.", Colors.RED);
 				                    break;
 				                }
 								
 				                if (_perso.isInDungeon()) {
-				                    SocketManager.GAME_SEND_MESSAGE(_perso, "Vous ne pouvez pas utiliser cette commande en donjon.", Config.CONFIG_MOTD_COLOR);
+				                    SocketManager.GAME_SEND_MESSAGE(_perso, "Vous ne pouvez pas utiliser cette commande en donjon.", Colors.RED);
 				                    break;
 				                }
 				                */
 								if (_perso.get_curCarte().haveMobFix()) {
-									SocketManager.GAME_SEND_MESSAGE(_perso, "Votre escouade ne peux pas vous rejoindre pendant un donjon.", Config.CONFIG_MOTD_COLOR);
+									SocketManager.GAME_SEND_MESSAGE(_perso, "Votre escouade ne peux pas vous rejoindre pendant un donjon.", Colors.RED);
 									break;
 								}
 								if (_perso.get_fight() != null){
-									SocketManager.GAME_SEND_MESSAGE(_perso, "Votre escouade ne peux pas vous rejoindre pendant un combat.", Config.CONFIG_MOTD_COLOR);
+									SocketManager.GAME_SEND_MESSAGE(_perso, "Votre escouade ne peux pas vous rejoindre pendant un combat.", Colors.RED);
 									break;
 								}
 								if (_perso.get_curExchange() != null){
-									SocketManager.GAME_SEND_MESSAGE(_perso, "Votre escouade ne peux pas vous rejoindre pendant que vous êtes occupé.", Config.CONFIG_MOTD_COLOR);
+									SocketManager.GAME_SEND_MESSAGE(_perso, "Votre escouade ne peux pas vous rejoindre pendant que vous êtes occupé.", Colors.RED);
 									break;
 								}
 								if(_perso.isEsclave()){
-									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous ne pouvez pas donner cette ordre, vous n'êtes pas le chef.", Config.CONFIG_MOTD_COLOR);
+									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous ne pouvez pas donner cette ordre, vous n'êtes pas le chef.", Colors.RED);
 									break;
 								}
 								if(_perso.get_maitre() != null){
 									_perso.get_maitre().teleportAllEsclaves();
-									SocketManager.GAME_SEND_MESSAGE(_perso, "<b>" + _perso.get_maitre().getEsclaves().size() + " membres </b> de votre escoude vous ont rejoins.", Config.CONFIG_MOTD_COLOR);
+									SocketManager.GAME_SEND_MESSAGE(_perso, "<b>" + _perso.get_maitre().getEsclaves().size() + " membres </b> de votre escoude vous ont rejoins.", Colors.RED);
 									useSuccess = true;
 								} else {
-									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'avez pas d'escouade. Faites <b>." + command.getName() + " create </b> pour en créer une.", Config.CONFIG_MOTD_COLOR);
+									SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'avez pas d'escouade. Faites <b>." + command.getName() + " create </b> pour en créer une.", Colors.RED);
 									break;
 								}
 							}
 						} catch(Exception e){
-							SocketManager.GAME_SEND_MESSAGE(_perso, "Faites <b>." + command.getName() + " create/delete/join</b>.", Config.CONFIG_MOTD_COLOR);
+							SocketManager.GAME_SEND_MESSAGE(_perso, "Faites <b>." + command.getName() + " create/delete/join</b>.", Colors.RED);
 						}
 						break;
 					case 55: // Parchotage vs kamas
@@ -1702,12 +1702,12 @@ public class PlayerCommand {
 						}
 
 						if (nbreElemente == 0) {
-							SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes déjà parchotté dans tout les éléments !", Config.CONFIG_MOTD_COLOR);
+							SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes déjà parchotté dans tout les éléments !", Colors.RED);
 							break;
 						} else {
 							_perso.set_kamas(_perso.get_kamas() - kamasPrice);
 							SocketManager.GAME_SEND_STATS_PACKET(_perso);
-							SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes parchotté dans tout les éléments !",Config.CONFIG_MOTD_COLOR);
+							SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes parchotté dans tout les éléments !",Colors.RED);
 							SocketManager.GAME_SEND_Im_PACKET(_perso, "046;" + kamasPrice);
 							useSuccess = true;
 						}
@@ -1721,13 +1721,13 @@ public class PlayerCommand {
 					diff = (points - price);
 					Utils.updatePointsByAccount(_perso.get_compte(), diff);
 					int newpoint = Utils.loadPointsByAccount(_perso.get_compte());
-					SocketManager.GAME_SEND_MESSAGE(_perso, "Vous venez de perdre " + price + " points boutiques !<br />Il vous reste " + newpoint + " points.", Config.CONFIG_MOTD_COLOR);
+					SocketManager.GAME_SEND_MESSAGE(_perso, "Vous venez de perdre " + price + " points boutiques !<br />Il vous reste " + newpoint + " points.", Colors.RED);
 				}
 				SQLManager.SAVE_PERSONNAGE(_perso, true);
 				return true;
 			} else {
 				SocketManager.GAME_SEND_MESSAGE(_perso, "Commande non reconnue ou incomplète !",
-						Config.CONFIG_MOTD_COLOR);
+						Colors.RED);
 				return true;
 			}
 		}

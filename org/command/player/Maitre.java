@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.client.Characters;
 import org.common.Formulas;
 import org.common.SocketManager;
-import org.kernel.Config;
+import org.utils.Colors;
 
 public class Maitre
 {
@@ -28,9 +28,9 @@ public class Maitre
 	public void teleportAllEsclaves() {
 		for (Characters p : getEsclaves()) {
 			if (p.get_fight() != null || p.get_curExchange() != null) {
-				SocketManager.GAME_SEND_MESSAGE(p, "Vous n'avez pas pus être téléporter car vous êtes occuper.", Config.CONFIG_MOTD_COLOR);
+				SocketManager.GAME_SEND_MESSAGE(p, "Vous n'avez pas pus être téléporter car vous êtes occuper.", Colors.RED);
 				
-				SocketManager.GAME_SEND_MESSAGE(_maitre, "Le membre <b>" + p.get_name() + "</b> n'a pas été téléporté car il est occupé", Config.CONFIG_MOTD_COLOR);
+				SocketManager.GAME_SEND_MESSAGE(_maitre, "Le membre <b>" + p.get_name() + "</b> n'a pas été téléporté car il est occupé", Colors.RED);
 				continue;
 			}
 			if(p.get_curCarte() == _maitre.get_curCarte())
@@ -38,7 +38,7 @@ public class Maitre
 			int[] cellTab = Formulas.getAdjacentCells(_maitre.get_curCell().getID());
 			int cell = cellTab[Formulas.getRandomValue(0, cellTab.length-1)];
 			p.teleport(_maitre.get_curCarte().get_id(), cell);
-			SocketManager.GAME_SEND_MESSAGE(p, "Votre chef <b>" + _maitre.get_name() + "</b> vous a téléporté à ces côtés.", Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(p, "Votre chef <b>" + _maitre.get_name() + "</b> vous a téléporté à ces côtés.", Colors.RED);
 		}
 
 	}
@@ -74,7 +74,7 @@ public class Maitre
 				continue;
 
 			list.add(p);
-			SocketManager.GAME_SEND_MESSAGE(p, "Félicitation ! Vous venez de rentrer dans l'escouade de <b>" + _maitre.get_name() + "</b>.", Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(p, "Félicitation ! Vous venez de rentrer dans l'escouade de <b>" + _maitre.get_name() + "</b>.", Colors.RED);
 			p.setEsclave(true);
 		}
 		

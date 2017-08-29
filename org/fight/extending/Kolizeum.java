@@ -7,8 +7,8 @@ import org.client.Characters;
 import org.client.Characters.Group;
 import org.common.SocketManager;
 import org.fight.Fight;
-import org.game.tools.AllColors;
 import org.kernel.Config;
+import org.utils.Colors;
 
 public class Kolizeum {
 
@@ -34,7 +34,7 @@ public class Kolizeum {
 					player.setKolizeum(0);
 					hasFind = true;
 					lLevel = team.getkLevel();
-					SocketManager.GAME_SEND_MESSAGE(player, "<b>Kolizeum:</b> Inscription prise en compte !", AllColors.RED);
+					SocketManager.GAME_SEND_MESSAGE(player, "<b>Kolizeum:</b> Inscription prise en compte !", Colors.RED);
 					break;
 				}
 			}
@@ -50,8 +50,8 @@ public class Kolizeum {
 				while(player.get_lvl() + level > 201)
 					level --;
 			}
-			SocketManager.GAME_SEND_MESSAGE(player, "<b>Kolizeum:</b> Inscription prise en compte !", AllColors.RED);
-			SocketManager.GAME_SEND_MESSAGE_TO_ALL( "<b>Kolizeum:</b> "+(Config.KOLIMAX_PLAYER - 1)+" joueurs à l'appel de niveau "+(player.get_lvl()-Config.KOLI_LEVEL)+" - "+(player.get_lvl()+level)+" pour compléter une team !", AllColors.RED);
+			SocketManager.GAME_SEND_MESSAGE(player, "<b>Kolizeum:</b> Inscription prise en compte !", Colors.RED);
+			SocketManager.GAME_SEND_MESSAGE_TO_ALL( "<b>Kolizeum:</b> "+(Config.KOLIMAX_PLAYER - 1)+" joueurs à l'appel de niveau "+(player.get_lvl()-Config.KOLI_LEVEL)+" - "+(player.get_lvl()+level)+" pour compléter une team !", Colors.RED);
 			return;
 		}
 		
@@ -93,7 +93,7 @@ public class Kolizeum {
 							team2 = c.get_name();
 						
 					}
-					SocketManager.GAME_SEND_MESSAGE_TO_ALL("<b>Kolizeum:</b> "+team1+" <b>VS</b> "+team2, AllColors.RED);
+					SocketManager.GAME_SEND_MESSAGE_TO_ALL("<b>Kolizeum:</b> "+team1+" <b>VS</b> "+team2, Colors.RED);
 					return;
 				}
 				
@@ -104,7 +104,7 @@ public class Kolizeum {
 				while(kLevel + level > 201)
 					level --;
 			}
-			SocketManager.GAME_SEND_MESSAGE_TO_ALL( "<b>Kolizeum:</b> "+Config.KOLIMAX_PLAYER+" joueurs manquants "+(kLevel-Config.KOLI_LEVEL)+" - "+(kLevel+level)+" pour débuter un nouveau match !", AllColors.RED);
+			SocketManager.GAME_SEND_MESSAGE_TO_ALL( "<b>Kolizeum:</b> "+Config.KOLIMAX_PLAYER+" joueurs manquants "+(kLevel-Config.KOLI_LEVEL)+" - "+(kLevel+level)+" pour débuter un nouveau match !", Colors.RED);
 		}
 		return;
 	}
@@ -116,7 +116,7 @@ public class Kolizeum {
 		
 		for (Characters player: group.getPersos()) {
 			player.setKolizeum(0);
-			SocketManager.GAME_SEND_MESSAGE(player, "<b>Kolizeum:</b> Inscription type groupe prise en compte !", AllColors.RED);
+			SocketManager.GAME_SEND_MESSAGE(player, "<b>Kolizeum:</b> Inscription type groupe prise en compte !", Colors.RED);
 		}
 		
 		for (Team team: Team.koliTeams)
@@ -155,7 +155,7 @@ public class Kolizeum {
 						team2 = c.get_name();
 					
 				}
-				SocketManager.GAME_SEND_MESSAGE_TO_ALL("<b>Kolizeum:</b> "+team1+" <b>VS</b> "+team2, AllColors.RED);
+				SocketManager.GAME_SEND_MESSAGE_TO_ALL("<b>Kolizeum:</b> "+team1+" <b>VS</b> "+team2, Colors.RED);
 				return;
 			}
 		}
@@ -164,7 +164,7 @@ public class Kolizeum {
 			while((group.getGroupLevel()/Config.KOLIMAX_PLAYER) + level > 201)
 				level --;
 		}
-		SocketManager.GAME_SEND_MESSAGE_TO_ALL( "<b>Kolizeum:</b> "+Config.KOLIMAX_PLAYER+" joueurs manquants "+((group.getGroupLevel()/group.getPersos().size() + level)-Config.KOLI_LEVEL)+" - "+((group.getGroupLevel()/group.getPersos().size())+level)+" pour débuter un nouveau match !", AllColors.RED);
+		SocketManager.GAME_SEND_MESSAGE_TO_ALL( "<b>Kolizeum:</b> "+Config.KOLIMAX_PLAYER+" joueurs manquants "+((group.getGroupLevel()/group.getPersos().size() + level)-Config.KOLI_LEVEL)+" - "+((group.getGroupLevel()/group.getPersos().size())+level)+" pour débuter un nouveau match !", Colors.RED);
 		return;
 	}
 	
@@ -205,7 +205,7 @@ public class Kolizeum {
 					if (team.getkCharacters().size() == 0)
 						Team.koliTeams.remove(team);
 					player.setKolizeum(-1);
-					SocketManager.GAME_SEND_MESSAGE(player, "<b>Kolizeum:</b> Désinscription acceptée !", AllColors.RED);
+					SocketManager.GAME_SEND_MESSAGE(player, "<b>Kolizeum:</b> Désinscription acceptée !", Colors.RED);
 				}
 			}
 		}catch (Exception e){}
@@ -227,7 +227,7 @@ public class Kolizeum {
 				t.getkCharacters().remove(c);
 				if (t.getkCharacters().size() == 0)
 					Team.koliTeams.remove(t);
-				SocketManager.GAME_SEND_MESSAGE(c, "<b>Kolizeum:</b> Vous avez été désinscris du kolizeum pour indisponibilité !", AllColors.RED);
+				SocketManager.GAME_SEND_MESSAGE(c, "<b>Kolizeum:</b> Vous avez été désinscris du kolizeum pour indisponibilité !", Colors.RED);
 				return true;
 			}
 		}

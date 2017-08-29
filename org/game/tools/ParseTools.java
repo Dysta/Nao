@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.client.Characters;
 import org.common.SocketManager;
-import org.kernel.Config;
+import org.utils.Colors;
 
 public class ParseTools {
 
@@ -48,7 +48,7 @@ public class ParseTools {
 							int quantity = Integer.parseInt(mySplit[1].toString());
 							
 							if (quantity <= 0)
-								SocketManager.GAME_SEND_MESSAGE(_perso, "La quantité désirée est incorrecte !", Config.CONFIG_MOTD_COLOR);
+								SocketManager.GAME_SEND_MESSAGE(_perso, "La quantité désirée est incorrecte !", Colors.RED);
 							FunctionTools.shopItemExecute(itemTemplate, quantity,  _perso);
 								
 						}

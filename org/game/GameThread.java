@@ -58,6 +58,7 @@ import org.object.job.Job.StatsMetier;
 import org.simplyfilter.filter.Filter;
 import org.simplyfilter.filter.Filters;
 import org.spell.Spell.SortStats;
+import org.utils.Colors;
 
 import vpn.detection.VPNDetection;
 
@@ -1354,7 +1355,7 @@ public class GameThread implements Runnable {
 					Seller.setBankKamas(NewSellerBankKamas);
 					if(Seller.isOnline())
 					{
-						SocketManager.GAME_SEND_MESSAGE(_perso, "Un enclo a ete vendu a "+MP.get_price()+".", Config.CONFIG_MOTD_COLOR);
+						SocketManager.GAME_SEND_MESSAGE(_perso, "Un enclo a ete vendu a "+MP.get_price()+".", Colors.RED);
 					}
 				}
 				MP.set_price(0);//On vide le prix
@@ -2174,7 +2175,7 @@ public class GameThread implements Runnable {
 			Mount DD = _perso.getMount();
 			if(pos == Constant.ITEM_POS_DRAGODINDE) {
 				if(_perso.getMount() == null) {
-					SocketManager.GAME_SEND_MESSAGE(_perso, "Votre personnage ne possède pas de dragodinde sur lui, il ne peut donc en nourir ...", Config.CONFIG_MOTD_COLOR);
+					SocketManager.GAME_SEND_MESSAGE(_perso, "Votre personnage ne possède pas de dragodinde sur lui, il ne peut donc en nourir ...", Colors.RED);
 				} else {
 					if (obj.getTemplate().getType() == 41 || obj.getTemplate().getType() == 63) {
 						int totalwin = qua * 10;
@@ -2185,9 +2186,9 @@ public class GameThread implements Runnable {
 						_perso.deleteItem(guid);
 						World.removeItem(guid);
 						SocketManager.GAME_SEND_DELETE_STATS_ITEM_FM(_perso, guid);
-						SocketManager.GAME_SEND_MESSAGE(_perso, "Votre dragodinde a gagné "+totalwin+" en énergie.", Config.CONFIG_MOTD_COLOR);
+						SocketManager.GAME_SEND_MESSAGE(_perso, "Votre dragodinde a gagné "+totalwin+" en énergie.", Colors.RED);
 					} else {
-						SocketManager.GAME_SEND_MESSAGE(_perso, "Nourriture pour dragodinde incomestible !", Config.CONFIG_MOTD_COLOR);
+						SocketManager.GAME_SEND_MESSAGE(_perso, "Nourriture pour dragodinde incomestible !", Colors.RED);
 					}
 				}
 			}
@@ -2880,7 +2881,7 @@ public class GameThread implements Runnable {
 					return;
 				if (World.getObjet(id) == null) {
 					SocketManager.GAME_SEND_MESSAGE(_perso,
-							"Cet objet n'existe pas ou bug, changes de perso pour en être sûr.", Config.CONFIG_MOTD_COLOR);
+							"Cet objet n'existe pas ou bug, changes de perso pour en être sûr.", Colors.RED);
 					return;
 				}
 				switch (packet.charAt(3)) {
@@ -3081,7 +3082,7 @@ public class GameThread implements Runnable {
 		if (_perso.getCurJobAction() != null) {
 			//Si pas action de craft, on s'arrete la
 			if (!_perso.getCurJobAction().isCraft()) {
-				SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes déjà entrain de craft !", Config.CONFIG_MOTD_COLOR);
+				SocketManager.GAME_SEND_MESSAGE(_perso, "Vous êtes déjà entrain de craft !", Colors.RED);
 				return;
 			}
 			if (packet.charAt(2) == 'O')//Ajout d'objet
@@ -3468,7 +3469,7 @@ public class GameThread implements Runnable {
 				int AccPoints = SQLManager.GET_ACCOUNT_POINTS(_perso.getAccID());
 				if (AccPoints < prix) {
 					SocketManager.GAME_SEND_MESSAGE(_perso, "Action impossible, il te manque "
-					+ (prix - AccPoints) + " points.", Config.CONFIG_MOTD_COLOR);
+					+ (prix - AccPoints) + " points.", Colors.RED);
 					return;
 				}
 				int newPoints = AccPoints - prix;
@@ -3476,7 +3477,7 @@ public class GameThread implements Runnable {
 				SocketManager.GAME_SEND_MESSAGE(
 						_perso,
 						"<b>Le Serveur</b> vous remercie de votre achat , il vous reste<b> "
-								+ newPoints + " </b>points.", Config.CONFIG_MOTD_COLOR);
+								+ newPoints + " </b>points.", Colors.RED);
 			}
 			if(_perso.get_kamas()<prix)//Si le joueur n'a pas assez de kamas
 			{
@@ -4067,7 +4068,7 @@ public class GameThread implements Runnable {
 				{
 					if(_perso.get_curCarte().isMuted() && _perso.get_compte().get_gmLvl() == 0)
 					{
-						SocketManager.GAME_SEND_MESSAGE(_perso, "La map actuelle a été mutée.", Config.CONFIG_MOTD_COLOR);
+						SocketManager.GAME_SEND_MESSAGE(_perso, "La map actuelle a été mutée.", Colors.RED);
 						return;
 					}
 					log_msg = "[Map "+_perso.get_curCarte().get_id()+"] : "+msg;
@@ -4420,7 +4421,7 @@ public class GameThread implements Runnable {
 		if(targetID > 0)//Expulsion d'un joueurs autre que soi-meme
 		{
 			if(_perso.getArena() == 1 || _perso.getKolizeum() == 1){
-	    		SocketManager.GAME_SEND_MESSAGE(_perso, "Impossible d'expulser un joueur en arène !", Config.CONFIG_MOTD_COLOR);
+	    		SocketManager.GAME_SEND_MESSAGE(_perso, "Impossible d'expulser un joueur en arène !", Colors.RED);
 	    		return;
 	    	}
 			Characters target = World.getPersonnage(targetID);
@@ -4432,7 +4433,7 @@ public class GameThread implements Runnable {
 		else
 		{
 			if(_perso.getArena() == 1 || _perso.getKolizeum() == 1){
-	    		SocketManager.GAME_SEND_MESSAGE(_perso, "Impossible d'habandonner un match en arène !", Config.CONFIG_MOTD_COLOR);
+	    		SocketManager.GAME_SEND_MESSAGE(_perso, "Impossible d'habandonner un match en arène !", Colors.RED);
 	    		return;
 	    	}
 			_perso.get_fight().leftFight(_perso, null, false);
@@ -5283,7 +5284,8 @@ public class GameThread implements Runnable {
 							e.printStackTrace();
 						}
 					}
-				}else
+				}
+				else
 				{
 					SocketManager.GAME_SEND_ATTRIBUTE_FAILED(_out);
 				}

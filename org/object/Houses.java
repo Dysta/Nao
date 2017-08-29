@@ -1,4 +1,3 @@
-
 package org.object;
 
 import java.util.Map;
@@ -11,10 +10,7 @@ import org.common.Constant;
 import org.common.SQLManager;
 import org.common.SocketManager;
 import org.common.World;
-import org.kernel.Config;
-
-
-
+import org.utils.Colors;
 
 public class Houses
 {
@@ -313,7 +309,7 @@ public class Houses
 			//Petit message pour le prévenir si il est on?
 			if(Seller.get_curPerso() != null)
 			{
-				SocketManager.GAME_SEND_MESSAGE(Seller.get_curPerso(), "Une maison vous appartenant à été vendue "+h.get_sale()+" kamas.", Config.CONFIG_MOTD_COLOR);
+				SocketManager.GAME_SEND_MESSAGE(Seller.get_curPerso(), "Une maison vous appartenant à été vendue "+h.get_sale()+" kamas.", Colors.RED);
 				SQLManager.SAVE_PERSONNAGE(Seller.get_curPerso(), true);
 			}
 			SQLManager.UPDATE_ACCOUNT_DATA(Seller);

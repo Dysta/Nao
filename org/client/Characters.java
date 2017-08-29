@@ -56,6 +56,7 @@ import org.object.job.Job.JobAction;
 import org.object.job.Job.StatsMetier;
 import org.spell.SpellEffect;
 import org.spell.Spell.SortStats;
+import org.utils.Colors;
 
 public class Characters {
 
@@ -1378,7 +1379,7 @@ public class Characters {
 
 		//Envoi du message de bienvenue personnalisé 
 		if (!Config.CONFIG_MOTD.equals(""))
-			SocketManager.GAME_SEND_MESSAGE(this, Config.CONFIG_MOTD, "0D0978");
+			SocketManager.GAME_SEND_MESSAGE(this, Config.CONFIG_MOTD, Colors.BLACK_BLUE);
 
 		if (_fight == null) {
 			// on démarre le Timer pour la Regen de Pdv
@@ -3373,7 +3374,7 @@ public class Characters {
 		if (_kamas < cost) {
 			SocketManager.GAME_SEND_Im_PACKET(this, "182");
 			SocketManager.GAME_SEND_MESSAGE(this, "Vous n'avez pas sufisamment de Kamas pour rï¿½aliser cette action.",
-					Config.CONFIG_MOTD_COLOR);
+					Colors.RED);
 			return;
 		}
 		_kamas -= cost;
@@ -3956,7 +3957,7 @@ public class Characters {
 		if (_items.get(ObjID).getQuantity() < qua) {
 			Logs.addToGameLog("Le joueur " + _name
 					+ " a tentï¿½ d'ajouter une quantitï¿½ d'objet en banque dont il ne possï¿½dait pas.");
-			SocketManager.GAME_SEND_MESSAGE(this, "Alors petit rigolo, ï¿½a marche plus ?", Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(this, "Alors petit rigolo, ï¿½a marche plus ?", Colors.RED);
 			return;
 		}
 		// Si c'est un item ï¿½quipï¿½ ...
@@ -4115,7 +4116,7 @@ public class Characters {
 		if (dist > 10) // Distance max acceptï¿½e entre les deux amours.
 		{
 			SocketManager.GAME_SEND_MESSAGE(this,
-					"Vous etes trop loin de votre amour. Impossible de vous y teleporter.", Config.CONFIG_MOTD_COLOR);
+					"Vous etes trop loin de votre amour. Impossible de vous y teleporter.", Colors.RED);
 			return;
 		} else {
 			teleport(p.get_curCarte().get_id(), p.get_curCell().getID());

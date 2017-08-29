@@ -9,8 +9,8 @@ import org.common.Constant;
 import org.common.SocketManager;
 import org.common.World;
 import org.fight.Fight;
-import org.game.tools.AllColors;
 import org.kernel.Config;
+import org.utils.Colors;
 
 import java.util.Random;
 import java.util.TreeMap;
@@ -31,7 +31,7 @@ public class Arena {
 		for (Characters c: Team.getPlayers(team)){
 			c.setArena(0);
 		}
-		SocketManager.GAME_SEND_MESSAGE_TO_ALL("<b>Arena:</b> La team <b>"+team.getName()+"</b> (Côte: "+team.getCote()+", Level Moyen: "+actualLevelTeam+") est en attente d'arène 2v2!", AllColors.RED);
+		SocketManager.GAME_SEND_MESSAGE_TO_ALL("<b>Arena:</b> La team <b>"+team.getName()+"</b> (Côte: "+team.getCote()+", Level Moyen: "+actualLevelTeam+") est en attente d'arène 2v2!", Colors.RED);
 		
 		for (Entry<Integer, Integer> t: teamInWaiting.entrySet())
 		{
@@ -53,7 +53,7 @@ public class Arena {
 				newArena(Team.getTeamByID(t.getKey()), team);
 				teamInWaiting.remove(t.getKey());
 				teamInWaiting.remove(team.getId());
-				SocketManager.GAME_SEND_MESSAGE_TO_ALL("<b>Arena:</b>  <b>"+team.getName()+"</b> (Côte: "+team.getCote()+")  | VS | <b>"+Team.getTeamByID(t.getKey()).getName()+"</b> (Côte: "+Team.getTeamByID(t.getKey()).getCote()+") ", AllColors.RED);
+				SocketManager.GAME_SEND_MESSAGE_TO_ALL("<b>Arena:</b>  <b>"+team.getName()+"</b> (Côte: "+team.getCote()+")  | VS | <b>"+Team.getTeamByID(t.getKey()).getName()+"</b> (Côte: "+Team.getTeamByID(t.getKey()).getCote()+") ", Colors.RED);
 				return;
 			}
 			
@@ -89,7 +89,7 @@ public class Arena {
 	{
 		if (teamInWaiting.containsKey(team.getId()))
 		{
-			SocketManager.GAME_SEND_MESSAGE_TO_ALL("<b>Arena:</b> La team <b>"+team.getName()+"</b> vient de se désinscrire de l'arène 2v2!", AllColors.RED);
+			SocketManager.GAME_SEND_MESSAGE_TO_ALL("<b>Arena:</b> La team <b>"+team.getName()+"</b> vient de se désinscrire de l'arène 2v2!", Colors.RED);
 			for (Characters c: Team.getPlayers(team))
 				c.setArena(-1);
 			teamInWaiting.remove(team.getId());
@@ -109,7 +109,7 @@ public class Arena {
 				} catch(Exception e){}
 			}
 			if (c==null || c.get_fight()!=null || !c.isOnline()) {
-				SocketManager.GAME_SEND_MESSAGE_TO_ALL("<b>Arena:</b> La team d'arène 2v2 ("+t.getName()+") a été désinscrite suite à l'innactivité ou indisponibilité du joueur "+c.get_name()+" !", Config.CONFIG_MOTD_COLOR);
+				SocketManager.GAME_SEND_MESSAGE_TO_ALL("<b>Arena:</b> La team d'arène 2v2 ("+t.getName()+") a été désinscrite suite à l'innactivité ou indisponibilité du joueur "+c.get_name()+" !", Colors.RED);
 				for (String ccc: t.getCharacters().split(","))
 				{
 					Characters cccc = World.getPersonnage(Integer.parseInt(ccc));
@@ -161,9 +161,9 @@ public class Arena {
 		Team.updateTeam(winners.getId());
 		for (Characters c: Team.getPlayers(winners))
 		{
-			SocketManager.GAME_SEND_MESSAGE(c, "Félicitation, vous venez de remporter <b>"+points+"</b> points de quote ! Faites .infoteam pour voir votre total de points !", Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(c, "Félicitation, vous venez de remporter <b>"+points+"</b> points de quote ! Faites .infoteam pour voir votre total de points !", Colors.RED);
 		}
-		SocketManager.GAME_SEND_MESSAGE_TO_ALL("<b>Arena:</b> La team <b>"+winners.getName()+"</b> (Côte: "+winners.getCote()+") gagne contre la team <b>"+loosers.getName()+"</b> (Côte: "+loosers.getCote()+")!", AllColors.RED);
+		SocketManager.GAME_SEND_MESSAGE_TO_ALL("<b>Arena:</b> La team <b>"+winners.getName()+"</b> (Côte: "+winners.getCote()+") gagne contre la team <b>"+loosers.getName()+"</b> (Côte: "+loosers.getCote()+")!", Colors.RED);
 		return;
 	}
 	
@@ -189,7 +189,7 @@ public class Arena {
 		Team.updateTeam(loosers.getId());
 		for (Characters c: Team.getPlayers(loosers))
 		{
-			SocketManager.GAME_SEND_MESSAGE(c, "Dommage, vous venez de perdre <b>"+points+"</b> points de quote ! Faites .infoteam pour voir votre total de points !", Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(c, "Dommage, vous venez de perdre <b>"+points+"</b> points de quote ! Faites .infoteam pour voir votre total de points !", Colors.RED);
 		}
 		return;
 	}

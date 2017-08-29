@@ -11,8 +11,8 @@ import org.common.Constant;
 import org.common.SQLManager;
 import org.common.SocketManager;
 import org.common.World;
-import org.kernel.Config;
 import org.kernel.Logs;
+import org.utils.Colors;
 
 /** Adlesne **/
 
@@ -161,7 +161,7 @@ public class Trunk {
 		}
 		else if(P.get_guild() == null && h.canDo(Constant.C_OCANTOPEN))//si on compare par id ça bug (guild null)
 		{
-			SocketManager.GAME_SEND_MESSAGE(P, "Ce coffre ne peut être ouvert que par les membres de la guilde !", Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(P, "Ce coffre ne peut être ouvert que par les membres de la guilde !", Colors.RED);
 		return;
 		}
 		else if(t.get_owner_id() > 0)//Une personne autre le possède, il faut le code pour rentrer
@@ -238,7 +238,7 @@ public class Trunk {
 		
 		if(_object.size() >= 80) // Le plus grand c'est pour si un admin ajoute des objets via la bdd...
 		{
-			SocketManager.GAME_SEND_MESSAGE(P, "Le nombre d'objets maximal de ce coffre à été atteint !", Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(P, "Le nombre d'objets maximal de ce coffre à été atteint !", Colors.RED);
 			return;
 		}
 		

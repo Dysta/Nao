@@ -8,7 +8,7 @@ import org.client.Characters;
 import org.common.SocketManager;
 import org.common.World;
 import org.game.GameServer;
-import org.kernel.Config;
+import org.utils.Colors;
 
 public class FunctionTools {
 
@@ -20,7 +20,7 @@ public class FunctionTools {
 		
 		if (GameServer.lastIpTiming.containsKey(perso.get_compte().get_curIP())){
 			if(System.currentTimeMillis() - (lastIpTiming.get(perso.get_compte().get_curIP()))  < 7200000) {
-				SocketManager.GAME_SEND_MESSAGE(perso, thanks, Config.CONFIG_MOTD_COLOR);
+				SocketManager.GAME_SEND_MESSAGE(perso, thanks, Colors.RED);
 				return;
 			} else
 	        	lastIpTiming.put(perso.get_compte().get_curIP(), (long)-1);
@@ -33,7 +33,7 @@ public class FunctionTools {
 		} else {
 			lastIpTiming.put(perso.get_compte().get_curIP(), System.currentTimeMillis());
 			Utils.updateAllIps(lastIpTiming);
-			SocketManager.GAME_SEND_MESSAGE(perso, thanks, Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(perso, thanks, Colors.RED);
 		}
 	}
 
@@ -46,7 +46,7 @@ public class FunctionTools {
 		int diff = 0;
 		
 		if (points < price) {
-			SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'avez pas assez de points, il vous manque "+ (price-points) + " points !", Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(_perso, "Vous n'avez pas assez de points, il vous manque "+ (price-points) + " points !", Colors.RED);
 			return;
 			
 		} else {
@@ -55,11 +55,11 @@ public class FunctionTools {
 			Utils.updatePointsByAccount(_perso.get_compte(), diff);
 			if (templateID > 0) {
 				Utils.addObjectToCharacter(_perso, templateID, quantity, true, price);
-				SocketManager.GAME_SEND_MESSAGE(_perso, "Vous avez reçu l'objet <b>"+World.getObjTemplate(templateID).getName()+"</b> (x"+quantity+") au prix de <b>"+price+"</b> points et il vous reste actuellement <b>"+diff+"</b> points.", Config.CONFIG_MOTD_COLOR);
+				SocketManager.GAME_SEND_MESSAGE(_perso, "Vous avez reçu l'objet <b>"+World.getObjTemplate(templateID).getName()+"</b> (x"+quantity+") au prix de <b>"+price+"</b> points et il vous reste actuellement <b>"+diff+"</b> points.", Colors.RED);
 			return;
 			} else {
 				Utils.addPackToCharacter(_perso, templateID);
-				SocketManager.GAME_SEND_MESSAGE(_perso, "Vous avez reçu le pack '<b>"+getPackDescriptionByType(templateID)+"</b>' (x"+quantity+") au prix de <b>"+price+"</b> points et il vous reste actuellement <b>"+diff+"</b> points.", Config.CONFIG_MOTD_COLOR);
+				SocketManager.GAME_SEND_MESSAGE(_perso, "Vous avez reçu le pack '<b>"+getPackDescriptionByType(templateID)+"</b>' (x"+quantity+") au prix de <b>"+price+"</b> points et il vous reste actuellement <b>"+diff+"</b> points.", Colors.RED);
 			}
 		}
 		

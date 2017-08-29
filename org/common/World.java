@@ -37,6 +37,7 @@ import org.object.Objects.ObjTemplate;
 import org.object.job.Job;
 import org.object.job.Job.StatsMetier;
 import org.spell.Spell;
+import org.utils.Colors;
 
 import java.util.TreeMap;
 
@@ -1438,12 +1439,12 @@ public class World {
 
 	public static void RefreshAllMob() {
 		SocketManager.GAME_SEND_MESSAGE_TO_ALL("Recharge des monstres en cours, des latences peuvent survenir.",
-				Config.CONFIG_MOTD_COLOR);
+				Colors.RED);
 		for (Maps map : getCartes().values()) {
 			map.refreshSpawns();
 		}
 		SocketManager.GAME_SEND_MESSAGE_TO_ALL("Recharge des monstres terminée. La prochaine recharge aura lieu dans 5 heures.",
-				Config.CONFIG_MOTD_COLOR);
+				Colors.RED);
 	}
 
 	public static ExpLevel getExpLevel(int lvl) {
@@ -2014,12 +2015,12 @@ public class World {
 		Characters Femme = getMarried().get(1);
 		if (Homme.getWife() != 0) {
 			SocketManager.GAME_SEND_MESSAGE_TO_MAP(carte, Homme.get_name() + " est deja marier!",
-					Config.CONFIG_MOTD_COLOR);
+					Colors.RED);
 			return;
 		}
 		if (Femme.getWife() != 0) {
 			SocketManager.GAME_SEND_MESSAGE_TO_MAP(carte, Femme.get_name() + " est deja marier!",
-					Config.CONFIG_MOTD_COLOR);
+					Colors.RED);
 			return;
 		}
 		SocketManager.GAME_SEND_cMK_PACKET_TO_MAP(perso.get_curCarte(), "", -1, "Prï¿½tre", perso.get_name()

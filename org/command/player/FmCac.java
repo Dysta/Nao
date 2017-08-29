@@ -8,6 +8,7 @@ import org.common.World;
 import org.kernel.Config;
 import org.object.Objects;
 import org.spell.SpellEffect;
+import org.utils.Colors;
 
 public class FmCac {
 	
@@ -21,15 +22,15 @@ public class FmCac {
 		Objects obj = _perso.getObjetByPos(Constant.ITEM_POS_ARME);
 
 		if(SQLManager.GET_ACCOUNT_POINTS(_perso.getAccID()) < Config.PRICE_FM_CAC) {
-			SocketManager.GAME_SEND_MESSAGE(_perso, "Action impossible : vous avez moins de "+Config.PRICE_FM_CAC+" points.", Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(_perso, "Action impossible : vous avez moins de "+Config.PRICE_FM_CAC+" points.", Colors.RED);
 			return true;
 			
 		} else if(_perso.get_fight() != null) {
-			SocketManager.GAME_SEND_MESSAGE(_perso, "Action impossible : vous ne devez pas être en combat", Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(_perso, "Action impossible : vous ne devez pas être en combat", Colors.RED);
 			return true;
 		
 		} else if(obj == null) {
-			SocketManager.GAME_SEND_MESSAGE(_perso, "Action impossible : vous ne portez pas d'arme", Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(_perso, "Action impossible : vous ne portez pas d'arme", Colors.RED);
 			return true;
 		}
 
@@ -40,7 +41,7 @@ public class FmCac {
 				containNeutre = true;
 		}
 		if(!containNeutre) {
-			SocketManager.GAME_SEND_MESSAGE(_perso, "Action impossible : votre arme n'a pas de dégats neutre", Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(_perso, "Action impossible : votre arme n'a pas de dégats neutre", Colors.RED);
 			return true;
 		}
 		
@@ -49,12 +50,12 @@ public class FmCac {
 		try {
 			answer = msg.substring(9, msg.length() - 1);
 		} catch(Exception e) {
-			SocketManager.GAME_SEND_MESSAGE(_perso, "Action impossible : vous n'avez pas spécifié l'élément (air, feu, terre, eau) qui remplacera les dégats/vols de vies neutres", Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(_perso, "Action impossible : vous n'avez pas spécifié l'élément (air, feu, terre, eau) qui remplacera les dégats/vols de vies neutres", Colors.RED);
 			return true;
 		}
 
 		if(!answer.equalsIgnoreCase("air") && !answer.equalsIgnoreCase("terre") && !answer.equalsIgnoreCase("feu") && !answer.equalsIgnoreCase("eau")) {
-			SocketManager.GAME_SEND_MESSAGE(_perso, "Action impossible : l'élément " + answer + " n'existe pas ! (dispo : air, feu, terre, eau)", Config.CONFIG_MOTD_COLOR);
+			SocketManager.GAME_SEND_MESSAGE(_perso, "Action impossible : l'élément " + answer + " n'existe pas ! (dispo : air, feu, terre, eau)", Colors.RED);
 			return true;
 		}
 
@@ -95,7 +96,7 @@ public class FmCac {
 		SQLManager.SET_ACCOUNT_POINTS(new_points, _perso.getAccID());
 
 		SocketManager.GAME_SEND_STATS_PACKET(_perso);
-		SocketManager.GAME_SEND_MESSAGE(_perso, "Votre objet <b>" + obj.getTemplate().getName() + "</b> a été forgemagé avec succès en " + answer, Config.CONFIG_MOTD_COLOR);
+		SocketManager.GAME_SEND_MESSAGE(_perso, "Votre objet <b>" + obj.getTemplate().getName() + "</b> a été forgemagé avec succès en " + answer, Colors.RED);
 		SQLManager.SAVE_PERSONNAGE(_perso, false);
 		/**GameThread.Object_move(_perso, _perso.get_compte().getGameThread().get_out(), 1, obj.getGuid(), 1);
 		_perso.removeItem(obj.getGuid());

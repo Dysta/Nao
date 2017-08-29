@@ -17,11 +17,11 @@ import org.fight.Fight.Glyphe;
 import org.fight.Fight.Piege;
 import org.fight.object.Challenge;
 import org.fight.object.Monster.MobGrade;
-import org.kernel.Config;
 import org.kernel.Logs;
 import org.object.Maps;
 import org.object.Maps.Case;
 import org.spell.Spell.SortStats;
+import org.utils.Colors;
 
 import java.util.TreeMap;
 
@@ -1206,7 +1206,7 @@ public class SpellEffect
 			//On prend le Fighter ciblé
 			Fighter target = tcase.getFirstFighter();
 			if (target.isState(6)){ //Return, Skryn ;)
-				SocketManager.GAME_SEND_MESSAGE(caster.getPersonnage(), "L'adversaire reste immobile suite à l'état enraciné", Config.CONFIG_MOTD_COLOR);
+				SocketManager.GAME_SEND_MESSAGE(caster.getPersonnage(), "L'adversaire reste immobile suite à l'état enraciné", Colors.RED);
 				return; 
 			}
 			if(target.getMob() != null)

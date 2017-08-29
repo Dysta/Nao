@@ -11,8 +11,8 @@ import org.client.Characters;
 import org.common.SQLManager;
 import org.common.SocketManager;
 import org.common.World;
-import org.game.tools.AllColors;
 import org.kernel.Config;
+import org.utils.Colors;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -66,9 +66,9 @@ public class Team {
 			if(player.isOnline())
 			{
 				if (player != p)
-					SocketManager.GAME_SEND_MESSAGE(player, "La team "+team.getName()+" dont vous faisiez parti est dissoute par "+p.get_name()+" !", AllColors.RED);	
+					SocketManager.GAME_SEND_MESSAGE(player, "La team "+team.getName()+" dont vous faisiez parti est dissoute par "+p.get_name()+" !", Colors.RED);	
 				else
-					SocketManager.GAME_SEND_MESSAGE(player, "Vous venez de dissoudre la team "+team.getName()+" !", AllColors.RED);
+					SocketManager.GAME_SEND_MESSAGE(player, "Vous venez de dissoudre la team "+team.getName()+" !", Colors.RED);
 			}
 			SQLManager.SAVE_PERSONNAGE(player, false);
 		}
@@ -141,7 +141,7 @@ public class Team {
 		{
 			for (String player: players.split(","))
 			{
-				SocketManager.GAME_SEND_MESSAGE(World.getPersonnage(Integer.parseInt(player)), "Le joueur "+World.getPersonnage(Integer.parseInt(player)).get_name()+" a déjà une équipe d'arène !", AllColors.RED);
+				SocketManager.GAME_SEND_MESSAGE(World.getPersonnage(Integer.parseInt(player)), "Le joueur "+World.getPersonnage(Integer.parseInt(player)).get_name()+" a déjà une équipe d'arène !", Colors.RED);
 				return false;
 			}
 		}
@@ -155,7 +155,7 @@ public class Team {
 				for (String player: players.split(","))
 				{
 					if (World.getPersonnage(Integer.parseInt(player)).isOnline())
-						SocketManager.GAME_SEND_MESSAGE(World.getPersonnage(Integer.parseInt(player)), "Le nom d'équipe <b>'"+name+"</b> est déjà pris, choisissez en un autre !", AllColors.RED);
+						SocketManager.GAME_SEND_MESSAGE(World.getPersonnage(Integer.parseInt(player)), "Le nom d'équipe <b>'"+name+"</b> est déjà pris, choisissez en un autre !", Colors.RED);
 				}
 				return false;
 			}

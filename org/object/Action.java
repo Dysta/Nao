@@ -11,11 +11,11 @@ import org.fight.object.Prism;
 import org.fight.object.Stalk;
 import org.fight.object.Monster.MobGroup;
 import org.object.Objects;
-import org.kernel.Config;
 import org.kernel.Logs;
 import org.object.NpcTemplates.NPC_question;
 import org.object.Objects.ObjTemplate;
 import org.object.job.Job.StatsMetier;
+import org.utils.Colors;
 
 public class Action {
 
@@ -672,7 +672,7 @@ public class Action {
 			int item = Integer.parseInt(args);
 			perso.get_compte().setCadeau(item);
 			SocketManager.GAME_SEND_MESSAGE(perso, "Vous avez reçu un cadeau sur votre compte !",
-					Config.CONFIG_MOTD_COLOR);
+					Colors.RED);
 			break;
 		case 228:// Faire animation Hors Combat
 			try {
@@ -704,7 +704,7 @@ public class Action {
 				target.set_title(titulo);
 
 				SocketManager.GAME_SEND_MESSAGE(perso, "<b>Tu possèdes un nouveau titre !</b>",
-						Config.CONFIG_MOTD_COLOR);
+						Colors.RED);
 				SocketManager.GAME_SEND_STATS_PACKET(perso);
 				SQLManager.SAVE_PERSONNAGE(perso, false);
 			} catch (Exception e) {
@@ -807,7 +807,7 @@ public class Action {
 					perso.teleport(newMapID, newCellID);
 				} else {
 					SocketManager.GAME_SEND_MESSAGE(perso, "Vous n'avez pas le level requis : " + levelperso + ".",
-							Config.CONFIG_MOTD_COLOR);
+							Colors.RED);
 				}
 			} catch (Exception e) {
 				return;
@@ -821,7 +821,7 @@ public class Action {
                 int classe = Integer.parseInt(args);
                 
                 if(classe < 1 || classe > 12) { // On évite les bugs chelou
-                    SocketManager.GAME_SEND_MESSAGE(perso, "Classe invalide", Config.CONFIG_MOTD_COLOR);
+                    SocketManager.GAME_SEND_MESSAGE(perso, "Classe invalide", Colors.RED);
                     break;
                 }
 
@@ -859,7 +859,7 @@ public class Action {
                 SocketManager.GAME_SEND_Ow_PACKET(perso);
                 SocketManager.GAME_SEND_ASK(perso.get_compte().getGameThread().get_out(), perso);
                 SocketManager.GAME_SEND_SPELL_LIST(perso);
-                SocketManager.GAME_SEND_MESSAGE(perso, "Félicitation ! Vous avez changé de classe avec succès !", Config.CONFIG_MOTD_COLOR);
+                SocketManager.GAME_SEND_MESSAGE(perso, "Félicitation ! Vous avez changé de classe avec succès !", Colors.RED);
                 
                 // On save le perso
                 SQLManager.SAVE_PERSONNAGE(perso, true);
@@ -889,7 +889,7 @@ public class Action {
 				} else {
 					ObjTemplate t2 = World.getObjTemplate(objectRequired);
 					SocketManager.GAME_SEND_MESSAGE(perso, "Vous n'avez pas assez de " + t2.getName() + " !",
-							Config.CONFIG_MOTD_COLOR);
+							Colors.RED);
 				}
 			} catch (Exception e) {
 				return;

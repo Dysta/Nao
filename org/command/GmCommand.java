@@ -24,7 +24,6 @@ import org.fight.object.Monster.MobGroup;
 import org.game.GameSendThread;
 import org.game.GameThread;
 import org.game.GameServer.SaveThread;
-import org.game.tools.AllColors;
 import org.game.tools.Utils;
 import org.kernel.Config;
 import org.kernel.Logs;
@@ -41,6 +40,7 @@ import org.object.NpcTemplates.NPC_question;
 import org.object.NpcTemplates.NPC_reponse;
 import org.object.Objects.ObjTemplate;
 import org.object.job.Job.StatsMetier;
+import org.utils.Colors;
 
 public class GmCommand {
 	Accounts _compte;
@@ -199,7 +199,7 @@ public class GmCommand {
 				target.get_compte().setAFlooder(true);
 				SocketManager.GAME_SEND_MESSAGE_TO_ALL("Le joueur <b>" + target.get_name()
 						+ "</b> est désormais soumis à l'antiflood du serveur par le modérateur " + _perso.get_name()
-						+ " !", Config.CONFIG_MOTD_COLOR);
+						+ " !", Colors.RED);
 			} else {
 				target.get_compte().setAFlooder(false);
 				target.get_compte().setFloodGrade(0);
@@ -207,7 +207,7 @@ public class GmCommand {
 						.GAME_SEND_MESSAGE_TO_ALL(
 								"Le modérateur <b>" + _perso.get_name()
 										+ "</b> a désactivé l'antiflood actif sur le joueur " + target.get_name() + " !",
-								Config.CONFIG_MOTD_COLOR);
+								Colors.RED);
 			}
 			break;
 		case 8: //mapinfo
@@ -441,7 +441,7 @@ public class GmCommand {
 				String prefix1 = "<i>de</i> [<b><a href='asfunction:onHref,ShowPlayerPopupMenu,"
 						+ this._perso.get_name() + "'>" + this._perso.get_name() + "</a></b>] : ";
 				String prefix2 = "Message a \"" + Pl.get_name() + "\" : ";
-				SocketManager.GAME_SEND_MESSAGE(Pl, prefix1 + infos[2], Config.CONFIG_MOTD_COLOR);
+				SocketManager.GAME_SEND_MESSAGE(Pl, prefix1 + infos[2], Colors.RED);
 				SocketManager.GAME_SEND_CONSOLE_SUCCESS_PACKET(this._out, prefix2 + infos[2]);
 			}
 			break;
@@ -2143,35 +2143,35 @@ public class GmCommand {
 								if (c.isOnline())
 									SocketManager.GAME_SEND_MESSAGE(c,
 											"Félicitation, vous venez de remporter 500 points pack avec la 1ere place du Top Pvp 2v2 !",
-											AllColors.RED);
+											Colors.RED);
 							} else if (rank == 2) {
 								int newPackPoints = Utils.loadPointsPackByAccount(c.get_compte()) + 400;
 								Utils.updatePointsPackByAccount(c.get_compte(), newPackPoints);
 								if (c.isOnline())
 									SocketManager.GAME_SEND_MESSAGE(c,
 											"Félicitation, vous venez de remporter 400 points pack avec la 2e place du Top Pvp 2v2 !",
-											AllColors.RED);
+											Colors.RED);
 							} else if (rank == 3) {
 								int newPackPoints = Utils.loadPointsPackByAccount(c.get_compte()) + 300;
 								Utils.updatePointsPackByAccount(c.get_compte(), newPackPoints);
 								if (c.isOnline())
 									SocketManager.GAME_SEND_MESSAGE(c,
 											"Félicitation, vous venez de remporter 300 points pack avec la 3e place du Top Pvp 2v2 !",
-											AllColors.RED);
+											Colors.RED);
 							} else if (rank == 4) {
 								int newPackPoints = Utils.loadPointsPackByAccount(c.get_compte()) + 200;
 								Utils.updatePointsPackByAccount(c.get_compte(), newPackPoints);
 								if (c.isOnline())
 									SocketManager.GAME_SEND_MESSAGE(c,
 											"Félicitation, vous venez de remporter 200 points pack avec la 4e place du Top Pvp 2v2 !",
-											AllColors.RED);
+											Colors.RED);
 							} else if (rank == 5) {
 								int newPackPoints = Utils.loadPointsPackByAccount(c.get_compte()) + 200;
 								Utils.updatePointsPackByAccount(c.get_compte(), newPackPoints);
 								if (c.isOnline())
 									SocketManager.GAME_SEND_MESSAGE(c,
 											"Félicitation, vous venez de remporter 200 points pack avec la 5e place du Top Pvp 2v2 !",
-											AllColors.RED);
+											Colors.RED);
 							}
 						}
 					}
@@ -2188,7 +2188,7 @@ public class GmCommand {
 			}
 			SocketManager.GAME_SEND_MESSAGE_TO_ALL(
 					"Les récompenses d'arène 2v2 sont livrées ! La période d'arène est terminée, le classement retourne à 0. Bonne chance pour la nouvelle saison !!",
-					AllColors.RED);
+					Colors.RED);
 			break;
 		case 79: // Ajouter de l'honneur
 			int honor = 0;
@@ -2389,7 +2389,7 @@ public class GmCommand {
 		SocketManager.GAME_SEND_CONSOLE_SUCCESS_PACKET(_out,
 				"Remplissage fini en " + (System.currentTimeMillis() - time1) + "ms");
 		World.saveAll(null);
-		SocketManager.GAME_SEND_MESSAGE_TO_ALL("HDV remplis!", Config.CONFIG_MOTD_COLOR);
+		SocketManager.GAME_SEND_MESSAGE_TO_ALL("HDV remplis!", Colors.RED);
 	}
 
 	private int getHdv(int type) {
