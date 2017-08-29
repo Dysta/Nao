@@ -5,9 +5,7 @@ import org.fight.Fight.Fighter;
 import org.fight.IA.utils.Function;
 
 public class IA_08 {
-	private static boolean stop = false;
-	
-	public static void apply(Fighter F, Fight fight) {
+	public static void apply(Fighter F, Fight fight, boolean stop) {
 		int PDVPER = (F.getPDV() * 100) / F.getPDVMAX();
 		int attack;
 		while (!stop && F.canPlay()) {

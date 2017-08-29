@@ -42,7 +42,7 @@ public class IA {
 			stop = false;
 			if (_fighter.getMob() == null) {
 				if (_fighter.isDouble()) {
-					IA_05.apply(_fighter, _fight);
+					IA_05.apply(_fighter, _fight, stop);
 					try {
 						Thread.sleep(2000L);
 					} catch (InterruptedException localInterruptedException) {
@@ -71,43 +71,43 @@ public class IA {
 					apply_type0(_fighter, _fight);
 					break;
 				case 1:// Attaque, Buff soi-même, Buff Alliés, Avancer vers ennemis.
-					IA_01.apply(_fighter, _fight);
+					IA_01.apply(_fighter, _fight, stop);
 					break;
 				case 2:// Soutien
-					IA_02.apply(_fighter, _fight);
+					IA_02.apply(_fighter, _fight, stop);
 					break;
 				case 3:// Avancer vers Alliés, Buff Alliés, Buff sois même
-					IA_03.apply(_fighter, _fight);
+					IA_03.apply(_fighter, _fight, stop);
 					break;
 				case 4:// Attaque, Fuite, Buff Alliés, Buff sois même
-					IA_04.apply(_fighter, _fight);
+					IA_04.apply(_fighter, _fight, stop);
 					break;
 				case 5:// IA propre aux bloqueurs (bloqueuse + double) (avance vers ennemi)
-					IA_05.apply(_fighter, _fight);
+					IA_05.apply(_fighter, _fight, stop);
 					break;
 				case 6:// IA type invocations
-					IA_06.apply(_fighter, _fight);
+					IA_06.apply(_fighter, _fight, stop);
 					break;
 				case 7: // IA type Tonneau
-					IA_07.apply(_fighter, _fight);
+					IA_07.apply(_fighter, _fight, stop);
 					break;
 				case 8: // IA type Cadran Xelor
-					IA_08.apply(_fighter, _fight);
+					IA_08.apply(_fighter, _fight, stop);
 					break;
 				case 9: // IA type Pandawasta
-					IA_09.apply(_fighter, _fight);
+					IA_09.apply(_fighter, _fight, stop);
 					break;
 				case 10:// IA specal
-					IA_10.apply(_fighter, _fight);
+					IA_10.apply(_fighter, _fight, stop);
 					break;
 				case 12:// IA Fuite (Tofu)
-					IA_12.apply(_fighter, _fight);
+					IA_12.apply(_fighter, _fight, stop);
 					break;
 				case 13:// IA sac animé
-					IA_13.apply(_fighter, _fight);
+					IA_13.apply(_fighter, _fight, stop);
 					break;
 				case 14:// Attaque, buff sois-même, buff allié mais n'avance pas
-					IA_14.apply(_fighter, _fight);
+					IA_14.apply(_fighter, _fight, stop);
 					break;
 				}
 				try {
@@ -128,7 +128,7 @@ public class IA {
 		private static void apply_type0(Fighter F, Fight fight) {
 			stop = true;
 		}
-		
+
 		private static void apply_typePerco(Fight.Fighter F, Fight fight) {
 			try {
 				int noBoucle = 0;
@@ -166,7 +166,6 @@ public class IA {
 				return;
 			}
 		}
-	}
 
-	
+	}
 }

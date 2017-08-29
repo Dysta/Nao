@@ -5,9 +5,7 @@ import org.fight.Fight.Fighter;
 import org.fight.IA.utils.Function;
 
 public class IA_13 {
-	private static boolean stop = false;
-	
-	public static void apply(Fighter F, Fight fight) {
+	public static void apply(Fighter F, Fight fight, boolean stop) {
 		while (!stop && F.canPlay()) {
 			Fighter T = Function.getNearestFriend(fight, F);
 			if (!Function.HealIfPossible(fight, F, false))// soin alli�

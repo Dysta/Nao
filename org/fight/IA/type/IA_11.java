@@ -4,14 +4,10 @@ import org.fight.Fight;
 import org.fight.Fight.Fighter;
 import org.fight.IA.utils.Function;
 
-public class IA_01 {
+public class IA_11 {
+	private static boolean stop = false;
 	
-	/*
-	 * IA BASIQUE : Avance contre l'ennemie et attaque, soigne/buff personne. IA par
-	 * défaut
-	 */
-
-	public static void apply(Fighter F, Fight fight, boolean stop) {
+	public static void apply(Fighter F, Fight fight) {
 		while (!stop && F.canPlay()) {
 			int PDVPER = (F.getPDV() * 100) / F.getPDVMAX();
 			Fighter T = Function.getNearestEnnemy(fight, F); // Ennemis

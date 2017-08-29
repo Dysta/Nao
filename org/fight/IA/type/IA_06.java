@@ -5,9 +5,7 @@ import org.fight.Fight.Fighter;
 import org.fight.IA.utils.Function;
 
 public class IA_06 {
-	private static boolean stop = false;
-	
-	public static void apply(Fighter F, Fight fight) {
+	public static void apply(Fighter F, Fight fight, boolean stop) {
 		while (!stop && F.canPlay()) {
 			if (!Function.invocIfPossible(fight, F)) {
 				Fighter T = Function.getNearestFriend(fight, F);

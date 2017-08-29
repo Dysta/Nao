@@ -5,9 +5,7 @@ import org.fight.Fight.Fighter;
 import org.fight.IA.utils.Function;
 
 public class IA_07 {
-	private static boolean stop = false;
-	
-	public static void apply(Fighter F, Fight fight) {
+	public static void apply(Fighter F, Fight fight, boolean stop) {
 		int chan = 0;
 		while (!stop && F.canPlay()) {
 			if (++chan >= 12)
